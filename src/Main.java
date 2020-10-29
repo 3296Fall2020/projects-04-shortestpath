@@ -8,6 +8,8 @@ public class Main {
         String currentPosition;   // current position of the user
         String destination;    // destination where the user wants to go
 
+        System.out.println("Hello, World - Andreas G");
+
         Scanner user = new Scanner(System.in);
 
         System.out.println("Please enter name of the city followed by the state you want to start from: ");
