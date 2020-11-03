@@ -21,8 +21,11 @@ Joan, age 27, is a software developer in New York. He manages and organizes team
 - Chris never leaves home without his smartphone.His parents live in Tampa, and he visits them couple times in a year. Also, his favorite place to visit is Miami which he usually goes in summer. This software will help him find the shortest path to follow from Philadelphia to any cities he chooses to go.
 
 >>> Andreas G
--
--
+- Ella, age 21, a junior statistics major at a private university in New York City. Born and raised in New Jersey, her mother is a chemistry professor and father a commercial pilot for a major airliner. Inspired at a young age by her parents to pursue a field in mathematics, she was twice captain of her highschool's mathletes and student president during her senior year, allowing her to get into a great school 
+with a healthy scholarship. Her day-day involves going to classes, studying, and tutoring math on the weekends at both the university and the local highschools. During her free time, she watches films and maintains a log of data for every film. After graduation, she plans on going to grad school, with plans of becoming a professor in the field of mathematics or statistics. 
+- One of her classes is driven on generation and analysis of some data. Her current assignment provides her with general data for all airports and flights in USA from major cities. Pick a city that has more than one 
+airport (ex. NYC, LA, Boston, etc...) and generate the earliest arrival time (have access to departure time) for all major cities starting from each airport in origin city, and analyze in some statistical way. This application 
+will allow her to generate data she needs, without having to calculate the distance by hand, or writing her own program to do so. 
 >>> Faris
 -Jack is 38 years old and works as a truck driver at amazon. He was born in Allentown, Pennsylvania. He now lives in the great city of Philadelphia. He is happily married with two children. He is a devoted father who likes to work hard to get his family’s needs. 
 -Jack, like many fathers is not a big fan of technology but his job as a truck driver needs a map guide.  His job a lot of the time involves driving to a different city. There are many different routes he could take to reach his destination and he likes using this app to find the fastest one. He chose this app because it is easy to use and it user friendly. 
