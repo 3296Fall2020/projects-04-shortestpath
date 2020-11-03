@@ -7,10 +7,11 @@ public class Main {
     public static void main(String[] args) {
         String currentPosition;   // current position of the user
         String destination;    // destination where the user wants to go
-        System.out.println("group Members : Faris, Andreas, Francesko, Tonmoy, Xuljiano");
+        System.out.println("group Members : Faris, Andreas, Francesko, Tonmoy, Xhuljano");
 
         System.out.println("Hello, World - Andreas G");
         System.out.println("Hello, World - Tonmoy C");
+        System.out.prinln("Hello, World - Xhuljano R");
 
         Scanner user = new Scanner(System.in);
 
