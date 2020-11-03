@@ -27,8 +27,8 @@ with a healthy scholarship. Her day-day involves going to classes, studying, and
 airport (ex. NYC, LA, Boston, etc...) and generate the earliest arrival time (have access to departure time) for all major cities starting from each airport in origin city, and analyze in some statistical way. This application 
 will allow her to generate data she needs, without having to calculate the distance by hand, or writing her own program to do so. 
 >>> Faris
--Jack is 38 years old and works as a truck driver at amazon. He was born in Allentown, Pennsylvania. He now lives in the great city of Philadelphia. He is happily married with two children. He is a devoted father who likes to work hard to get his family’s needs. 
--Jack, like many fathers is not a big fan of technology but his job as a truck driver needs a map guide.  His job a lot of the time involves driving to a different city. There are many different routes he could take to reach his destination and he likes using this app to find the fastest one. He chose this app because it is easy to use and it user friendly. 
+- Jack is 38 years old and works as a truck driver at amazon. He was born in Allentown, Pennsylvania. He now lives in the great city of Philadelphia. He is happily married with two children. He is a devoted father who likes to work hard to get his family’s needs. 
+- Jack, like many fathers is not a big fan of technology but his job as a truck driver needs a map guide.  His job a lot of the time involves driving to a different city. There are many different routes he could take to reach his destination and he likes using this app to find the fastest one. He chose this app because it is easy to use and it user friendly. 
 >>> Tonmoy C
 
 ![](Tonmoy.png)
