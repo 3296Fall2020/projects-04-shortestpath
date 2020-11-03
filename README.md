@@ -17,3 +17,15 @@ Joan, age 27, is a software developer in New York. He manages and organizes team
 
 - Joan’s experience as a software developer has made him to be confident and more efficient in programming using Python language. He believes that it is important for him to be at work in time and a software like ShortestPath can solve this issue to find the shortest way to arrive at his destination. He is interested in using ShortestPath software where he can definitely find his shortest way to get at his destination, especially his work.
 
+>>> Xhuljano Racaku
+-
+-
+>>> Andreas G
+-
+-
+>>> Tonmoy C
+-
+-
+>>> Faris
+-
+-
