@@ -23,9 +23,9 @@ Joan, age 27, is a software developer in New York. He manages and organizes team
 >>> Andreas G
 -
 -
->>> Tonmoy C
--
--
 >>> Faris
 -
 -
+>>> Tonmoy C
+
+![](Tonmoy.png)
