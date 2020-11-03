@@ -18,7 +18,8 @@ Joan, age 27, is a software developer in New York. He manages and organizes team
 - Joan’s experience as a software developer has made him to be confident and more efficient in programming using Python language. He believes that it is important for him to be at work in time and a software like ShortestPath can solve this issue to find the shortest way to arrive at his destination. He is interested in using ShortestPath software where he can definitely find his shortest way to get at his destination, especially his work.
 
 >>> Xhuljano Racaku
--
+- Chris, a talented cooker in Philadelphia, was born in Tampa, Florida. He has a high school diploma and quit college the first year, and he focused in what he knows to do the best, cooking. Chris moved to Philadelphia in his aunt house where he completed a culinary apprenticeship, and during the job training he worked hard to get as much as possible. His hobies are soccer and traveling.
+- Chris never leaves home without his smartphone.His parents live in Tampa, and he visits them couple times in a year. Also, his favorite place to visit is Miami which he usually goes in summer. This software will help him find the shortest path to follow from Philadelphia to any cities he choose to go.
 -
 >>> Andreas G
 -
