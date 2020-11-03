@@ -6,7 +6,7 @@ This project will create a program which will ask the user to enter two states i
 This project is a good choice in getting familiar how the google map, maps or other programs make it possible to find the fastest way to get to the required destination. Also more practice using JAVA. The output of this project should be something like: It will ask the user to put the name of a city, which will be the starting point, and then it will ask the name of second city which will be the destination.
 
 # Vision statement
--	This project is going to be useful for every person who travels short or long distances and wants to find the shortest and quickest way to get to it. It could be used by any customer at age 12 or older. The ShortestPath is a software which allows the user to input their starting point and their destination and it will calculate which direction the user will have to go to arrive at his destination as soon as possible. Unlike other maps software, our software only finds the shortest path between two cities at moment.   
+This project is going to be useful for every person who travels short or long distances and wants to find the shortest and quickest way to get to it. It could be used by any customer at age 12 or older. The ShortestPath is a software which allows the user to input their starting point and their destination and it will calculate which direction the user will have to go to arrive at his destination as soon as possible. Unlike other maps software, our software only finds the shortest path between two cities at moment.   
 
 # Personas (Team of 5)
 >>> Francesko Racaku Persona
