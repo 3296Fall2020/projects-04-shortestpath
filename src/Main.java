@@ -3,14 +3,38 @@ import java.awt.*;
 import java.util.*;
 import java.io.*;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 public class Main {
 
     // main method for the project
     public static void main(String[] args) {
+    	String csvFile = "Cities.csv";
         Cities[] cities = new Cities[150];  //array for max cities 150
         int countOfCities = 0;                  // the number of cities
         Edges[] links = new Edges[1700];  // array for max of edges 1700
         int countOfLinks = 0;                  // the number of links
+        BufferedReader br = null;
+        String name = "";
+        int x,y;
+        String line = "";
+        String cvsSplitBy = ",";
+        try {
+            br = new BufferedReader(new FileReader(csvFile));
+			while ((line = br.readLine()) != null) {
+                String[] l = line.split(cvsSplitBy);
+                name = l[0];
+                x = Integer.parseInt(l[1]);//getting the x coordinate from the file
+                y = Integer.parseInt(l[2]);//getting the y coordinate from the file
+                cities[countOfCities] = new Cities(name,x,y);
+                countOfCities++;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         //a new scrollable map of the city and their corresponding links
         DrawTheMap(countOfCities, cities, countOfLinks, links);
@@ -60,4 +84,5 @@ public class Main {
         // show the map
         mapFrame.setVisible(true);
     }// end DrawTheMap()
+
 }
