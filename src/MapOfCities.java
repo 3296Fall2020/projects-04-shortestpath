@@ -4,15 +4,11 @@ import javax.swing.*;
 public class MapOfCities extends JPanel {
     Cities[] cities = new Cities[150];  //array for max cities 150
     int countOfCities;                  // the number of cities
-    Edges[] links = new Edges[1700];  // array for max of edges 1700
+    Edges[] links = new Edges[1750];  // array for max of edges 1750
     int countOfLinks;                  // the number of links
 
-    MapOfCities() {
-
-    } // end Cities Canvas
-
     MapOfCities(int cityCount, Cities[] city, int linkCount, Edges[] link) {
-        setPreferredSize(new Dimension(1500, 900));
+        setPreferredSize(new Dimension(1800, 900));
         this.cities = city;
         this.countOfCities = cityCount;
         this.links = link;
@@ -29,6 +25,24 @@ public class MapOfCities extends JPanel {
         // place us image under map
         Image UsaImage = new ImageIcon("usa.jpg").getImage();
         g.drawImage(UsaImage, 280, 0, null);
+
+        // draw cities
+        for (int i = 0; i < countOfCities; i++) {
+            //This method will draw a dot for each city
+            g.setColor(Color.ORANGE);
+            g.fillOval(cities[i].getX() - 3, cities[i].getY() - 3, 8, 8);
+
+
+        } // end for
+
+        // draw labels
+        for (int i = 0; i < countOfCities; i++) {
+            // draw a label for each city, offest by 6 hor. and 9 ver. pixels
+            g.setColor(Color.RED);
+            g.setFont(new Font("Albertus Extra Bold", Font.BOLD, 12));
+            g.drawString(cities[i].getName(), cities[i].getX() + 6, cities[i].getY() + 9);
+        } // end for
+
 
         //add a text
         Graphics g2 = (Graphics) g;

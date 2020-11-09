@@ -3,38 +3,29 @@ import java.awt.*;
 import java.util.*;
 import java.io.*;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 public class Main {
 
     // main method for the project
     public static void main(String[] args) {
-    	String csvFile = "Cities.csv";
-        Cities[] cities = new Cities[150];  //array for max cities 150
-        int countOfCities = 0;                  // the number of cities
-        Edges[] links = new Edges[1700];  // array for max of edges 1700
-        int countOfLinks = 0;                  // the number of links
-        BufferedReader br = null;
-        String name = "";
-        int x,y;
-        String line = "";
-        String cvsSplitBy = ",";
-        try {
-            br = new BufferedReader(new FileReader(csvFile));
-			while ((line = br.readLine()) != null) {
-                String[] l = line.split(cvsSplitBy);
-                name = l[0];
-                x = Integer.parseInt(l[1]);//getting the x coordinate from the file
-                y = Integer.parseInt(l[2]);//getting the y coordinate from the file
-                cities[countOfCities] = new Cities(name,x,y);
-                countOfCities++;
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        Cities[] cities = new Cities[150]; //array of cities (Vertices) max = 150
+        for (int i = 0; i < cities.length; i++) {
+            cities[i] = new Cities();
+        }
+
+        Edges[] links = new Edges[1750];// array of links  (Edges)  max = 1750
+        for (int i = 0; i < links.length; i++) {
+            links[i] = new Edges();
+        }
+
+        int countOfCities; //number of cities
+        int countOfLinks; //number of links
+
+        // load cities into an array from a datafile
+        countOfCities = loadCities(cities);
+
+        // load links into an array from a datafile
+        countOfLinks = 0;
+
 
         //a new scrollable map of the city and their corresponding links
         DrawTheMap(countOfCities, cities, countOfLinks, links);
@@ -43,7 +34,56 @@ public class Main {
         //get the users input (starting point and destination)
         InputOfTheUser(cities, countOfCities);
 
-    }
+
+    } // end main
+    //************************************************************************
+
+    // method to read city data into an array from a data file
+    public static int loadCities(Cities[] cities) {
+
+        int count = 0; // number of cities[] elements with data
+
+        String[][] cityData = new String[200][3]; // holds data from the city file
+        String delimiter = ",";                   // the delimiter in a csv file
+        String line;                              // a String to hold each line from the file
+
+
+        // our file with the list of cities
+        String fileName = "Cities.csv";
+
+        try {
+            // Create a Scanner to read the input from a file
+            Scanner infile = new Scanner(new File(fileName));
+
+            /* This while loop reads lines of text into an array. it uses a Scanner class
+             * boolean function hasNextLine() to see if there is another line in the file.
+             */
+            while (infile.hasNextLine()) {
+                // read the line
+                line = infile.nextLine();
+
+                // split the line into separate objects and store them in a row in the array
+                cityData[count] = line.split(delimiter);
+
+                // read data from the 2D array into an array of City objects
+                cities[count].setName(cityData[count][0]);
+                cities[count].setX(Integer.parseInt(cityData[count][1]));
+                cities[count].setY(Integer.parseInt(cityData[count][2]));
+
+                count++;
+            }// end while
+
+            infile.close();
+
+        } catch (IOException e) {
+            // error message dialog box with custom title and the error icon
+            JOptionPane.showMessageDialog(null, "File I/O error:" + fileName, "File Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return count;
+
+    } // end loadCities()
+    //*************************************************************************
+
     public static void InputOfTheUser(Cities[] city, int cityCount){
         String currentPosition;   // current position of the user
         String destination;    // destination where the user wants to go
@@ -84,5 +124,4 @@ public class Main {
         // show the map
         mapFrame.setVisible(true);
     }// end DrawTheMap()
-
 }
