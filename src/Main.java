@@ -1,12 +1,18 @@
 import javax.swing.*;
 import java.awt.*;
+import java.net.MalformedURLException;
 import java.util.*;
 import java.io.*;
+import java.net.URL;
+import java.net.HttpURLConnection;
 
 public class Main {
 
     // main method for the project
     public static void main(String[] args) {
+
+        //testSearch();
+
         Cities[] cities = new Cities[150]; //array of cities (Vertices) max = 150
         for (int i = 0; i < cities.length; i++) {
             cities[i] = new Cities();
@@ -33,8 +39,6 @@ public class Main {
 
         //get the users input (starting point and destination)
         InputOfTheUser(cities, countOfCities);
-
-
     } // end main
     //************************************************************************
 
@@ -119,4 +123,29 @@ public class Main {
         // show the map
         mapFrame.setVisible(true);
     }// end DrawTheMap()
+
+    static void testSearch(){
+        // TESTING search (make get request, body will have location or put in url params, receive that locations geocode in the response)
+
+        Search search = null;
+        try {
+            search = new Search(8000);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Map<String, String> location = new HashMap<>();
+        location.put("city", "Philadelphia");
+        location.put("state", "Pennsylvania");
+        try {
+            search.geocoding(location);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+
+
+
