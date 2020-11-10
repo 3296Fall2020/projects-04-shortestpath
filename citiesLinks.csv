@@ -1,0 +1,107 @@
+﻿Augusta ME,Portland ME,56
+Augusta ME,Montpelier VT,180
+Portland ME,Augusta ME,56
+Portland ME,Concord NH,110
+Portland ME,Montpelier VT,160
+Concord NH,Portland ME,110
+Concord NH,Montpelier VT,120
+Concord NH,Boston MA,70
+Concord NH,Albany NY,150
+Concord NH,Providence RI,116
+Concord NH,Hartford CT,143
+Concord NH,Rochester NY,371
+Montpelier VT,Concord NH,120
+Montpelier VT,Albany NY,158
+Montpelier VT,Augusta ME,180
+Montpelier VT,Portland ME,110
+Montpelier VT,Boston MA,180
+Montpelier VT,Providence RI,229
+Montpelier VT,Hartford CT,199
+Montpelier VT,Rochester NY,360
+Boston MA,Montpelier VT,180
+Boston MA,Providence RI,51
+Boston MA,Concord NH,70
+Boston MA,Hartford CT,100
+Boston MA,Albany NY,169
+Albany NY,Rochester NY,226
+Albany NY,Buffalo NY,289
+Albany NY,New York City NY,150
+Albany NY,Montpelier VT,158
+Albany NY,Concord NH,150
+Albany NY,Boston MA,169
+Albany NY,Providence RI,163
+Albany NY,Hartford CT,113
+Albany NY,Harrisburg PA,293
+Albany NY,Trenton NJ,195
+Albany NY,Philadelphia PA,233
+Providence RI,Concord NH,116
+Providence RI,Montpelier VT,229
+Providence RI,Boston MA,51
+Providence RI,Hartford CT,73
+Providence RI,Albany NY,163
+Hartford CT,Boston MA,100
+Hartford CT,Albany NY,113
+Hartford CT,Providence RI,73
+Hartford CT,Concord NH,143
+Hartford CT,Montpelier VT,199
+Hartford CT,New York City NY,118
+Hartford CT,Buffalo NY,397
+Hartford CT,Rochester NY,335
+Hartford CT,Harrisburg PA,292
+Hartford CT,Trenton NJ,181
+New York City NY,Trenton NJ,61
+New York City NY,Hartford CT,118
+New York City NY,Albany NY,150
+New York City NY,Rochester NY,339
+New York City NY,Buffalo NY,374
+New York City NY,Harrisburg PA,171
+New York City NY,Erie PA,432
+Buffalo NY,Erie PA,92
+Buffalo NY,Rochester NY,77
+Buffalo NY,Albany NY,289
+Buffalo NY,New York City NY,374
+Buffalo NY,Pittsburgh PA,215
+Buffalo NY,Harrisburg PA,280
+Buffalo NY,Philadelphia PA,360
+Buffalo NY,Trenton NJ,390
+Rochester NY,Montpelier VT,360
+Rochester NY,Concord NH,371
+Rochester NY,Albany NY,226
+Rochester NY,Buffalo NY,77
+Rochester NY,New York City NY,339
+Rochester NY,Hartford CT,335
+Rochester NY,Erie PA,162
+Rochester NY,Harrisburg PA,260
+Rochester NY,Pittsburgh PA,280
+Rochester NY,Philadelphia PA,340
+Rochester NY,Trenton NJ,340
+Trenton NJ,Philadelphia PA,33
+Trenton NJ,Harrisburg PA,125
+Trenton NJ,Erie PA,433
+Trenton NJ,New York City NY,61
+Trenton NJ,Buffalo NY,390
+Trenton NJ,Rochester NY,340
+Trenton NJ,Albany NY,195
+Harrisburg PA,Erie PA,295
+Harrisburg PA,Pittsburgh PA,203
+Harrisburg PA,Philadelphia PA,105
+Harrisburg PA,Trenton NJ,125
+Harrisburg PA,New York City NY,171
+Harrisburg PA,Albany NY,293
+Harrisburg PA,Buffalo NY,280
+Harrisburg PA,Rochester NY,260
+Harrisburg PA,Hartford CT,292
+Harrisburg PA,Dover DE,130
+Harrisburg PA,Washington DC,120
+Harrisburg PA,Annapolis MD,112
+Harrisburg PA,Charleston WV,365
+Philadelphia PA,Harrisburg PA,105
+Philadelphia PA,Erie PA,400
+Philadelphia PA,Pittsburgh PA,305
+Philadelphia PA,Trenton NJ,33
+Philadelphia PA,Albany NY,233
+Philadelphia PA,Rochester NY,340
+Philadelphia PA,Buffalo NY,360
+Philadelphia PA,Dover DE,82
+Philadelphia PA,Annapolis MD,125
+Philadelphia PA,Washington DC,140
