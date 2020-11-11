@@ -105,3 +105,210 @@ Philadelphia PA,Buffalo NY,360
 Philadelphia PA,Dover DE,82
 Philadelphia PA,Annapolis MD,125
 Philadelphia PA,Washington DC,140
+Philadelphia PA	Washington DC	139
+Erie PA	Buffalo NY	92
+Erie PA	Rochester NY	162
+Erie PA	New York City NY	432
+Erie PA	Philadelphia PA	400
+Erie PA	Harrisburg PA	295
+Erie PA	Pittsburgh PA	128
+Erie PA	Columbus OH	238
+Erie PA	Trenton NJ	433
+Pittsburgh PA	Harrisburg PA	203
+Pittsburgh PA	Erie PA	128
+Pittsburgh PA	Philadelphia PA	305
+Pittsburgh PA	Buffalo NY	215
+Pittsburgh PA	Rochester NY	280
+Pittsburgh PA	Columbus OH	185
+Pittsburgh PA	Charleston WV	228
+Pittsburgh PA	Annapolis MD	269
+Pittsburgh PA	Washington DC	246
+Pittsburgh PA	Dover DE	325
+Pittsburgh PA	Richmond VA	335
+Pittsburgh PA	Roanoke VA	335
+Dover DE	Philadelphia PA	82
+Dover DE	Harrisburg PA	130
+Dover DE	Pittsburgh PA	325
+Dover DE	Annapolis MD	65
+Dover DE	Washington DC	93
+Dover DE	Richmond VA	200
+Annapolis MD	Dover DE	65
+Annapolis MD	Philadelphia PA	125
+Annapolis MD	Harrisburg PA	112
+Annapolis MD	Pittsburgh PA	269
+Annapolis MD	Washington DC	32
+Annapolis MD	Richmond VA	135
+Annapolis MD	Norfolk VA	208
+Washington DC	Dover DE	93
+Washington DC	Philadelphia PA	139
+Washington DC	Harrisburg PA	120
+Washington DC	Pittsburgh PA	246
+Washington DC	Annapolis MD	32
+Washington DC	Charleston WV	340
+Washington DC	Richmond VA	110
+Washington DC	Norfolk VA	195
+Washington DC	Roanoke VA	235
+Washington DC	Columbus OH	415
+Richmond VA	Dover DE	200
+Richmond VA	Annapolis MD	135
+Richmond VA	Washington DC	110
+Richmond VA	Roanoke VA	165
+Richmond VA	Norfolk VA	93
+Richmond VA	Pittsburgh PA	335
+Richmond VA	Charleston WV	316
+Richmond VA	Columbus OH	477
+Richmond VA	Raleigh NC	155
+Richmond VA	Greensboro NC	190
+Norfolk VA	Annapolis MD	208
+Norfolk VA	Washington DC	195
+Norfolk VA	Richmond VA	165
+Norfolk VA	Roanoke VA	240
+Norfolk VA	Raleigh NC	185
+Norfolk VA	Greensboro NC	236
+Roanoke VA	Harrisburg PA	295
+Roanoke VA	Pittsburgh PA	335
+Roanoke VA	Washington DC	235
+Roanoke VA	Richmond VA	165
+Roanoke VA	Norfolk VA	240
+Roanoke VA	Raleigh NC	155
+Roanoke VA	Greensboro NC	105
+Roanoke VA	Charlotte NC	185
+Roanoke VA	Charleston WV	180
+Roanoke VA	Frankfort KY	380
+Roanoke VA	Knoxville TN	260
+Raleigh NC	Norfolk VA	185
+Raleigh NC	Richmond VA	155
+Raleigh NC	Roanoke VA	155
+Raleigh NC	Greensboro NC	77
+Raleigh NC	Charlotte NC	160
+Raleigh NC	Columbia SC	210
+Raleigh NC	Myrtle Beach SC	175
+Raleigh NC	Charleston SC	280
+Greensboro NC	Richmond VA	190
+Greensboro NC	Norfolk VA	236
+Greensboro NC	Roanoke VA	105
+Greensboro NC	Raleigh NC	77
+Greensboro NC	Charlotte NC	92
+Greensboro NC	Charleston WV	244
+Greensboro NC	Frankfort KY	425
+Greensboro NC	Knoxville TN	275
+Greensboro NC	Myrtle Beach SC	195
+Greensboro NC	Charleston SC	280
+Greensboro NC	Columbia SC	185
+Charlotte NC	Roanoke VA	185
+Charlotte NC	Greensboro NC	92
+Charlotte NC	Raleigh NC	160
+Charlotte NC	Myrtle Beach SC	176
+Charlotte NC	Columbia SC	93
+Charlotte NC	Charleston SC	209
+Charlotte NC	Atlanta GA	245
+Charlotte NC	Knoxville TN	231
+Charlotte NC	Frankfort KY	425
+Charlotte NC	Charleston WV	264
+Columbia SC	Raleigh NC	210
+Columbia SC	Greensboro NC	185
+Columbia SC	Charlotte NC	93
+Columbia SC	Myrtle Beach SC	140
+Columbia SC	Charleston SC	116
+Columbia SC	Atlanta GA	215
+Columbia SC	Savannah GA	155
+Columbia SC	Colombus GA	295
+Columbia SC	Knoxville TN	263
+Myrtle Beach SC	Raleigh NC	175
+Myrtle Beach SC	Greensboro NC	195
+Myrtle Beach SC	Charlotte NC	176
+Myrtle Beach SC	Columbia SC	140
+Myrtle Beach SC	Charleston SC	96
+Myrtle Beach SC	Atlanta GA	362
+Myrtle Beach SC	Columbus GA	465
+Charleston SC	Raleigh NC	280
+Charleston SC	Greensboro NC	280
+Charleston SC	Charlotte NC	209
+Charleston SC	Columbia SC	116
+Charleston SC	Myrtle Beach SC	96
+Charleston SC	Atlanta GA	299
+Charleston SC	Columbus GA	350
+Charleston SC	Savannah GA	108
+Atlanta GA	Charlotte NC	245
+Atlanta GA	Columbia SC	215
+Atlanta GA	Myrtle Beach SC	140
+Atlanta GA	Charleston SC	299
+Atlanta GA	Savannah GA	248
+Atlanta GA	Columbus GA	107
+Atlanta GA	Jacksonville FL	346
+Atlanta GA	Tallahassee FL	272
+Atlanta GA	Montgomery AL	161
+Atlanta GA	Birmingham AL	147
+Atlanta GA	Nashville TN	250
+Atlanta GA	Knoxville TN	214
+Savannah GA	Charleston SC	108
+Savannah GA	Columbia SC	155
+Savannah GA	Atlanta GA	248
+Savannah GA	Columbus GA	250
+Savannah GA	Tallahassee FL	258
+Savannah GA	Jacksonville FL	140
+Columbus GA	Columbia SC	295
+Columbus GA	Myrtle Beach SC	465
+Columbus GA	Charleston SC	350
+Columbus GA	Atlanta GA	107
+Columbus GA	Savannah GA	250
+Columbus GA	Jacksonville FL	290
+Columbus GA	Tallahassee FL	168
+Columbus GA	Pensacola FL	245
+Columbus GA	Montgomery AL	83
+Columbus GA	Birmingham AL	142
+Tallahassee FL	Atlanta GA	272
+Tallahassee FL	Savannah GA	140
+Tallahassee FL	Columbus GA	168
+Tallahassee FL	Jacksonville FL	166
+Tallahassee FL	Orlando FL	259
+Tallahassee FL	Tampa FL	275
+Tallahassee FL	Pensacola FL	197
+Tallahassee FL	Montgomery AL	205
+Jacksonville FL	Atlanta GA	346
+Jacksonville FL	Savannah GA	140
+Jacksonville FL	Columbus GA	290
+Jacksonville FL	Tallahassee FL	166
+Jacksonville FL	Orlando FL	140
+Jacksonville FL	Tampa FL	200
+Orlando FL	Tallahassee FL	259
+Orlando FL	Jacksonville FL	140
+Orlando FL	Tampa FL	84
+Orlando FL	Fort Myers FL	159
+Orlando FL	Fort Lauderdale FL	210
+Tampa FL	Tallahassee FL	275
+Tampa FL	Jacksonville FL	200
+Tampa FL	Orlando FL	84
+Tampa FL	Fort Myers FL	125
+Tampa FL	Fort Lauderdale FL	247
+Fort Lauderdale FL	Orlando FL	210
+Fort Lauderdale FL	Tampa FL	247
+Fort Lauderdale FL	Fort Myers FL	140
+Fort Lauderdale FL	Miami FL	30
+Miami FL	Fort Lauderdale FL	30
+Miami FL	Fort Myers FL	152
+Fort Myers FL	Orlando FL	159
+Fort Myers FL	Tampa FL	125
+Fort Myers FL	Fort Lauderdale FL	140
+Fort Myers FL	Miami FL	152
+Pensacola FL	Tallahassee FL	197
+Pensacola FL	Columbus GA	245
+Pensacola FL	Mobile AL	60
+Pensacola FL	Montgomery AL	165
+Pensacola FL	Birmingham AL	253
+Montgomery AL	Atlanta GA	161
+Montgomery AL	Columbus GA	83
+Montgomery AL	Tallahassee FL	205
+Montgomery AL	Pensacola FL	165
+Montgomery AL	Mobile AL	169
+Montgomery AL	Birmingham AL	95
+Montgomery AL	Jackson MS	247
+Birmingham AL	Atlanta GA	147
+Birmingham AL	Columbus GA	142
+Birmingham AL	Montgomery AL	95
+Birmingham AL	Mobile AL	259
+Birmingham AL	Pensacola FL	253
+Birmingham AL	Jackson MS	237
+Birmingham AL	Memphis TN	245
+Birmingham AL	Nashville TN	192
+Birmingham AL	Knoxville TN	257
