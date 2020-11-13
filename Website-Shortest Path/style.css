@@ -176,3 +176,36 @@ section.join p::first-letter{
     color: white;
 }
 
+footer p iframe{
+    width: 100%;
+    top: 0;
+    padding: none;
+}
+
+.banner img{
+    width: 100%;
+}
+
+
+/* responsive styles */
+
+@media screen and (max-width: 1093px){
+    .banner .welcome h2{
+   font-size: 40px;
+    }
+
+}
+
+@media screen and (max-width: 600px){
+    .banner .welcome h2{
+   font-size: 30px;
+    }
+
+}
+
+@media screen and (max-width: 600px){
+    .banner .welcome{
+        position: relative;
+    }
+
+}
