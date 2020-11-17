@@ -1,3 +1,5 @@
+import org.json.simple.parser.ParseException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.net.MalformedURLException;
@@ -9,7 +11,7 @@ import java.net.HttpURLConnection;
 public class Main {
 
     // main method for the project
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException{
 
         //testSearch();
 
@@ -124,20 +126,28 @@ public class Main {
         mapFrame.setVisible(true);
     }// end DrawTheMap()
 
-    static void testSearch(){
+    static void testSearch() throws ParseException {
         // TESTING search (make get request, body will have location or put in url params, receive that locations geocode in the response)
 
         Search search = null;
         try {
+
             search = new Search(8000);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // CAPITALIZE
         Map<String, String> location = new HashMap<>();
+
         location.put("city", "Philadelphia");
-        location.put("state", "Pennsylvania");
+        location.put("state", "PA");
+
+        double[] retval;
+
         try {
-            search.geocoding(location);
+            retval = search.geocoding(location);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (IOException e) {

@@ -12,7 +12,9 @@ module.exports.get_geocoding = async (req, res) => {
   //city = city.replace(/\s+/g, "%20").toUpperCase();
   //state = state.replace(/\s+/g, "%20").toUpperCase();
 
-  
+  console.log("city: " + city);
+  console.log("state: " + state);
+ 
   // will hide later when host
   const key = `${process.env.API_KEY}`; 
   const client = new Client({});
@@ -32,10 +34,10 @@ module.exports.get_geocoding = async (req, res) => {
     let response = {
       lat: lat, 
       lng: lng,
-      success: true
+      success: true, 
     };
 
-    res.send(response); // send geocode to client 
+    res.status(200).send(response); // send geocode to client 
   })
   .catch(err => {
     console.log(err); 

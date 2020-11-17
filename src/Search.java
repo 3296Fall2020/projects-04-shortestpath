@@ -1,90 +1,82 @@
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.*;
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-// import org.json.simple.JSONObject;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class Search {
+    // Search, will allow user to pass ANY city in the US and receive
+    // corresponding geocode for future distance calculations
 
     int port;
     String location;
+    URL url;
     HttpURLConnection connection;
-    // TODO, other init for future requests
 
     Search(int port) throws IOException {
         this.port = port;
-
-    }
-
-    private void init(){
-        // TODO
+        this.url = new URL("http://localhost:8000/api/search/geocoding"); // our server
     }
 
 
-    public boolean geocoding(Map<String, String> location) throws IOException {
+    public double[] geocoding(Map<String, String> location) throws IOException, ParseException {
         // our nodejs server, make get request ".../api/search/geocoding?city="CITY"&state="STATE"
 
-        // TEMP, for testing
-        URL url = new URL("http://localhost:8000/api/search/geocoding"); // our server
-        HttpURLConnection connection = null;
+        StringBuilder url_string = new StringBuilder();
+        url_string.append("http://localhost:8000/api/search/geocoding");
+
+        // Build params ?city="CITY"&state="state"
+        url_string.append("?city=" + location.get("city"));
+        url_string.append("&state=" + location.get("state"));
+
+        url = new URL(url_string.toString());
+
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestProperty("accept", "application/json");
         connection.setRequestMethod("GET");
 
-        // TODO
-        // ADD PARAMS ?city="CITY"&state="STATE"
-        //connection.setDoOutput(true);
-        //DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-        //String params = paramsBuilder(location);
-
-        //out.writeBytes(params);
-        //out.flush();
-        //out.close();
-
         int status = connection.getResponseCode();
-        System.out.println(status);
 
-        // READ response (json)
-        // TODO
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(connection.getInputStream()));
-        String inputLine;
-        StringBuffer content = new StringBuffer();
-        while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
+        // GET RESPONSE (json format, receive as string, convert back to json)
+        StringBuilder res_string = new StringBuilder();
+        JSONObject response = null;
+        boolean success;
+
+
+        switch(status){
+            case 200:
+            case 201:
+
+                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    res_string.append(line+"\n");
+                }
+                br.close();
+
+                JSONParser parser = new JSONParser();
+                response = (JSONObject) parser.parse(res_string.toString());
+                success = true;
+                break;
+
+            default:
+                success = false;
+                break;
         }
-        in.close();
 
+        System.out.println(response);
+//        System.out.println(response.get("lng"));
+//        System.out.println(response.get("lat"));
 
-        System.out.println("STRING form: " + content);
-        //JSONObject temp = new JSONObject(content);
+        double lng = Double.parseDouble(response.get("lng").toString());
+        double lat = Double.parseDouble(response.get("lat").toString());
 
-        return true; // temp
-    }
+        double[] lng_lat = {lng, lat};
 
-    private String paramsBuilder(Map<String, String> location) throws UnsupportedEncodingException {
-        // ?city="CITY"&state="STATE"
-
-        StringBuilder temp = new StringBuilder();
-
-        // for city, state
-        temp.append("?");
-        temp.append(URLEncoder.encode("city", "UTF-8"));
-        temp.append("=");
-        temp.append(URLEncoder.encode(location.get("city"), "UTF-8"));
-        temp.append("&");
-        temp.append(URLEncoder.encode("state", "UTF-8"));
-        temp.append("=");
-        temp.append(URLEncoder.encode(location.get("state"), "UTF-8"));
-
-        return temp.toString();
-    }
-
-    private void bodyBuilder(Map<String, String> location){
-        // TODO, will send city, state in req. body or params (maybe both) this method setup request body
+        return lng_lat;
     }
 
 }
