@@ -2,10 +2,14 @@ import java.awt.*;
 import javax.swing.*;
 
 public class MapOfCities extends JPanel {
-    Cities[] cities = new Cities[150];  //array for max cities 150
+    Cities[] cities = new Cities[170];  //array for max cities 170
     int countOfCities;                  // the number of cities
     Edges[] links = new Edges[1750];  // array for max of edges 1750
     int countOfLinks;                  // the number of links
+
+    MapOfCities() {
+
+    }
 
     MapOfCities(int cityCount, Cities[] city, int linkCount, Edges[] link) {
         setPreferredSize(new Dimension(1800, 900));
@@ -22,7 +26,7 @@ public class MapOfCities extends JPanel {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, 1950, 1350);
 
-        // place us image under map
+        // place our image under map
         Image UsaImage = new ImageIcon("usa.jpg").getImage();
         g.drawImage(UsaImage, 280, 0, null);
 
@@ -32,15 +36,27 @@ public class MapOfCities extends JPanel {
             g.setColor(Color.ORANGE);
             g.fillOval(cities[i].getX() - 3, cities[i].getY() - 3, 8, 8);
 
-
         } // end for
 
         // draw labels
         for (int i = 0; i < countOfCities; i++) {
-            // draw a label for each city, offest by 6 hor. and 9 ver. pixels
+            // draw a label for each city
             g.setColor(Color.RED);
             g.setFont(new Font("Albertus Extra Bold", Font.BOLD, 12));
             g.drawString(cities[i].getName(), cities[i].getX() + 6, cities[i].getY() + 9);
+        } // end for
+
+        // draw links
+        for (int i = 0; i < countOfLinks; i++) {
+
+            // get the coordinations for the source and destination
+            int xS = links[i].getSource().getX();       // x coordination for the source
+            int yS = links[i].getSource().getY();       // y coordination for the source
+            int xD = links[i].getDestination().getX();	// x coordination for the destination
+            int yD = links[i].getDestination().getY();  // y coordination for the destination
+
+            g.setColor(new Color(38, 200, 14));
+            g.drawLine(xS, yS, xD, yD);
         } // end for
 
 

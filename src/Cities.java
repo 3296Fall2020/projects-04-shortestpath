@@ -1,21 +1,21 @@
 public class Cities {
-	 
+
     private String name; 	// name of the city
     private int x;  		// city's x-coordinate for drawing
     private int y;  		// city's y-coordinate for drawing
 
+    Cities() {
+    }
 
-Cities() {
-}
-
-Cities(String name, int x, int y) {
+    Cities(String name, int x, int y) {
         this.name = name;
         this.x = x;
         this.y = y;
-    }  // end Vertex()
+    }  // end Cities()
 
 
-public void setName(String name) {
+
+    public void setName(String name) {
         this.name = name;
     } // end setName()
 
