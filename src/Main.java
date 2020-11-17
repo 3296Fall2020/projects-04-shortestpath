@@ -2,6 +2,8 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
 import java.util.*;
 import java.io.*;
@@ -9,9 +11,8 @@ import java.net.URL;
 import java.net.HttpURLConnection;
 
 public class Main {
-
     // main method for the project
-    public static void main(String[] args) throws ParseException{
+    public static void main(String[] args) /*throws ParseException*/{
 
         //testSearch();
 
@@ -37,6 +38,7 @@ public class Main {
 
         //a new scrollable map of the city and their corresponding links
         DrawTheMap(countOfCities, cities, countOfLinks, links);
+
 
 
         //get the users input (starting point and destination)
@@ -172,6 +174,16 @@ public class Main {
         // using Jframe to create a frame for the map
         JFrame mapFrame = new JFrame();
 
+
+        mapFrame.addMouseListener(new MouseAdapter() {// provides empty implementation of all
+            // MouseListener`s methods, allowing us to
+            // override only those which interests us
+            @Override //I override only one method for presentation
+            public void mousePressed(MouseEvent e) {
+                System.out.println(e.getX() + "," + e.getY());
+            }
+        });
+
         // set the frame's properties
         mapFrame.setTitle("Our list of U.S Cities (Not All)");
         mapFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -183,12 +195,14 @@ public class Main {
         MapOfCities map = new MapOfCities(countOfCities, cities, countOfLinks, links);
 
         // put the map on a ScrollPane in the frame
-        mapFrame.add(new JScrollPane(map), BorderLayout.CENTER);
+        mapFrame.add(map, BorderLayout.CENTER);
         // show the map
         mapFrame.setVisible(true);
+
+
     }// end DrawTheMap()
 
-    static void testSearch() throws ParseException {
+    /*static void testSearch() throws ParseException {
         // TESTING search (make get request, body will have location or put in url params, receive that locations geocode in the response)
 
         Search search = null;
@@ -215,6 +229,5 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-}
+    }*/
 }
