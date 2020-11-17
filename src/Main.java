@@ -174,16 +174,6 @@ public class Main {
         // using Jframe to create a frame for the map
         JFrame mapFrame = new JFrame();
 
-
-        mapFrame.addMouseListener(new MouseAdapter() {// provides empty implementation of all
-            // MouseListener`s methods, allowing us to
-            // override only those which interests us
-            @Override //I override only one method for presentation
-            public void mousePressed(MouseEvent e) {
-                System.out.println(e.getX() + "," + e.getY());
-            }
-        });
-
         // set the frame's properties
         mapFrame.setTitle("Our list of U.S Cities (Not All)");
         mapFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -195,7 +185,17 @@ public class Main {
         MapOfCities map = new MapOfCities(countOfCities, cities, countOfLinks, links);
 
         // put the map on a ScrollPane in the frame
-        mapFrame.add(map, BorderLayout.CENTER);
+        mapFrame.add(new JScrollPane(map), BorderLayout.CENTER);
+
+        map.addMouseListener(new MouseAdapter() {// provides empty implementation of all
+            // MouseListener`s methods, allowing us to
+            // override only those which interests us
+            @Override //I override only one method for presentation
+            public void mousePressed(MouseEvent e) {
+                System.out.println(e.getX() + "," + e.getY());
+            }
+        });
+
         // show the map
         mapFrame.setVisible(true);
 
