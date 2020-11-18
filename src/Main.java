@@ -100,7 +100,7 @@ public class Main {
         // count for the number of links
         int count = 0;
 
-        String[][] CitiesLinksArray = new String[243][3]; // datas in our file
+        String[][] CitiesLinksArray = new String[1200][3]; // datas in our file
         String delimiter = ",";                        // the delimiter in cvs file
         String line;				                   // this string holds each line from the file
 
