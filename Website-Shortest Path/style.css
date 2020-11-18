@@ -186,6 +186,12 @@ footer p iframe{
     width: 100%;
 }
 
+p.map{
+    font-size: 40px;
+    width: 100%;
+    position: center;
+}
+
 
 /* responsive styles */
 
@@ -203,9 +209,15 @@ footer p iframe{
 
 }
 
-@media screen and (max-width: 600px){
-    .banner .welcome{
-        position: relative;
+@media screen and (max-width: 590px){
+    .banner .welcome h2{
+   font-size: 30px;
+    }
+    nav li{
+        font-size: 25px;
+        display: block;
+        width: 100%;
     }
 
 }
+

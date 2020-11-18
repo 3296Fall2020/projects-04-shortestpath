@@ -38,6 +38,8 @@ module.exports.get_geocoding = async (req, res) => {
     };
 
     res.status(200).send(response); // send geocode to client 
+
+    console.log(response); 
   })
   .catch(err => {
     console.log(err); 
