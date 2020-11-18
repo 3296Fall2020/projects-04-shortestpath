@@ -1,7 +1,11 @@
 //import org.json.simple.parser.ParseException;
 
+import org.json.simple.parser.ParseException;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
@@ -10,11 +14,11 @@ import java.io.*;
 import java.net.URL;
 import java.net.HttpURLConnection;
 
+
 public class Main {
     // main method for the project
     public static void main(String[] args) /*throws ParseException*/{
 
-        //testSearch();
 
         Cities[] cities = new Cities[170]; //array of cities (Vertices) max = 170
         for (int i = 0; i < cities.length; i++) {
@@ -36,12 +40,13 @@ public class Main {
         countOfLinks = loadLinks(links, cities);
 
 
-        //a new scrollable map of the city and their corresponding links
+        // a new scrollable map of the city and their corresponding links
         DrawTheMap(countOfCities, cities, countOfLinks, links);
 
+        // user input, SOURCE, DEST
+        SearchField();
 
-
-        //get the users input (starting point and destination)
+        // get the users input (starting point and destination)
         InputOfTheUser(cities, countOfCities);
 
 
@@ -202,32 +207,173 @@ public class Main {
 
     }// end DrawTheMap()
 
-    /*static void testSearch() throws ParseException {
-        // TESTING search (make get request, body will have location or put in url params, receive that locations geocode in the response)
 
-        Search search = null;
-        try {
+    static void SearchField() {
+        // TODO MAKE SEPARATE CLASS?
+        // Two Text Fields for user input: SOURCE input, DEST input
+        // MOVE LOCATION LATER, TO OUR MAP (not separate frame or panel)
 
-            search = new Search(8000);
+        Font font = new Font("Georgia", Font.PLAIN, 12);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        JFrame search_f = new JFrame();
+        search_f.setTitle(" TODO PUT IN MAP FRAME");
+        search_f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        search_f.setLayout(new BorderLayout());
+        search_f.setSize(550, 500);
+        search_f.setResizable(false);
+
+        GridBagLayout gbl = new GridBagLayout();
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        JPanel panel = new JPanel(gbl);
+
+        JTextField sourceCityInput = new JTextField(6);
+        sourceCityInput.setFont(font);
+        JTextField sourceStateInput = new JTextField(3);
+        sourceStateInput.setFont(font);
+        JButton sourceBtn = new JButton("ADD");
+        JLabel labelResultS = new JLabel();
+
+        JTextField destCityInput = new JTextField(6);
+        sourceCityInput.setFont(font);
+        JTextField destStateInput = new JTextField(3);
+        sourceStateInput.setFont(font);
+        JButton destBtn = new JButton("ADD ");
+        JLabel labelResultD = new JLabel();
+
+
+        sourceBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // read SOURCE input
+
+                String city = sourceCityInput.getText();
+                String state = sourceStateInput.getText();
+
+                double[] retval = geocodeHandler(city, state);
+                labelResultS.setText(Arrays.toString(retval));
+            }
+        });
+
+        destBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // read DEST input
+
+                String city = destCityInput.getText();
+                String state = destStateInput.getText();
+
+                double[] retval = geocodeHandler(city, state);
+                labelResultD.setText(Arrays.toString(retval));
+            }
+        });
+
+
+        // LAYOUT
+        Insets isLeft = new Insets(0, 10, 0, 0);
+
+        gbc.gridx = 0;
+        gbc.gridx = 0;
+        gbc.ipadx = 20;
+        gbc.ipady = 20;
+        panel.add(new JLabel(""), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.ipadx = 50;
+        gbc.ipady = 20;
+        panel.add(new JLabel("CITY"), gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        panel.add(new JLabel("STATE"), gbc);
+
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        panel.add(new JLabel("SOURCE"), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        panel.add(sourceCityInput, gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        gbc.ipadx = 60;
+        panel.add(sourceStateInput, gbc);
+
+        gbc.insets = (isLeft);
+        gbc.gridx = 3;
+        gbc.gridy = 1;
+        panel.add(sourceBtn, gbc);
+
+        gbc.insets = (isLeft);
+        gbc.gridx = 4;
+        gbc.gridy = 1;
+        panel.add(labelResultS, gbc);
+
+        gbc.insets = (new Insets(0, 0, 0, 0));
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        panel.add(new JLabel("DEST"), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        panel.add(destCityInput, gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 2;
+        panel.add(destStateInput, gbc);
+
+        gbc.insets = (isLeft);
+        gbc.gridx = 3;
+        gbc.gridy = 2;
+        panel.add(destBtn, gbc);
+
+        gbc.insets = (isLeft);
+        gbc.gridx = 4;
+        gbc.gridy = 2;
+        panel.add(labelResultD, gbc);
+
+
+        panel.setVisible(true);
+        search_f.add(panel);
+        search_f.setVisible(true);
+    }
+
+    static double[] geocodeHandler(String city, String state){
+
+        if(!city.isEmpty()){
+            // still works but only city, both would be better
+
+            Map<String, String> location = new HashMap<>();
+            location.put("city", city);
+            location.put("state", state);
+
+            try{
+                // FORMAT BETTER
+                Search search = new Search(8000);
+
+                try{
+                    double[] geocode = search.geocoding(new HashMap<>(location));
+                    System.out.println(geocode[0]);
+                    System.out.println(geocode[1]);
+
+                    return geocode;
+
+                }catch (ParseException pe){
+                    pe.printStackTrace();
+                }
+
+            }catch (IOException err){
+                err.printStackTrace();
+            }
         }
+        return null;
+    }
 
-        // CAPITALIZE
-        Map<String, String> location = new HashMap<>();
-
-        location.put("city", "Philadelphia");
-        location.put("state", "PA");
-
-        double[] retval;
-
-        try {
-            retval = search.geocoding(location);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
 }
+
+
+

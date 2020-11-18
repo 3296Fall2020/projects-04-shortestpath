@@ -25,14 +25,21 @@ public class Search {
     public double[] geocoding(Map<String, String> location) throws IOException, ParseException {
         // our nodejs server, make get request ".../api/search/geocoding?city="CITY"&state="STATE"
 
+
+        System.out.println(location.toString());
+
+
         StringBuilder url_string = new StringBuilder();
         url_string.append("http://localhost:8000/api/search/geocoding");
 
+        String city = location.get("city").replaceAll(" ", "+").toUpperCase();
+
         // Build params ?city="CITY"&state="state"
-        url_string.append("?city=" + location.get("city"));
+        url_string.append("?city=" + city);
         url_string.append("&state=" + location.get("state"));
 
         url = new URL(url_string.toString());
+        System.out.println("REQUEST URL: " +  url_string);
 
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestProperty("accept", "application/json");
@@ -67,16 +74,14 @@ public class Search {
                 break;
         }
 
-        System.out.println(response);
-//        System.out.println(response.get("lng"));
-//        System.out.println(response.get("lat"));
 
-        double lng = Double.parseDouble(response.get("lng").toString());
-        double lat = Double.parseDouble(response.get("lat").toString());
+        // TODO check not null!
+        String lng = response.get("lng").toString();
+        String lat = response.get("lat").toString();
 
-        double[] lng_lat = {lng, lat};
+        double[] lat_lng = {Double.parseDouble(lat), Double.parseDouble(lng)};
 
-        return lng_lat;
+        return lat_lng;
     }
 
 }
