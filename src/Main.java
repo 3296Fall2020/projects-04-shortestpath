@@ -8,16 +8,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.MalformedURLException;
 import java.util.*;
 import java.io.*;
-import java.net.URL;
-import java.net.HttpURLConnection;
 
 
 public class Main {
     // main method for the project
-    public static void main(String[] args) /*throws ParseException*/{
+    public static void main(String[] args){
 
 
         Cities[] cities = new Cities[170]; //array of cities (Vertices) max = 170
@@ -44,7 +41,7 @@ public class Main {
         DrawTheMap(countOfCities, cities, countOfLinks, links);
 
         // user input, SOURCE, DEST
-        SearchField();
+        SearchField(cities);
 
         // get the users input (starting point and destination)
         InputOfTheUser(cities, countOfCities);
@@ -153,6 +150,7 @@ public class Main {
         while (cities[index].getName().compareTo(c) != 0) {
             index++;
         }// end while()
+
         return cities[index];
 
     } // end findCities()
@@ -208,18 +206,16 @@ public class Main {
     }// end DrawTheMap()
 
 
-    static void SearchField() {
-        // TODO MAKE SEPARATE CLASS?
-        // Two Text Fields for user input: SOURCE input, DEST input
-        // MOVE LOCATION LATER, TO OUR MAP (not separate frame or panel)
+    static void SearchField(Cities[] cities) {
+        // Four Text Fields for user input: SOURCE input "city, state" && DEST input "city, state"
 
-        Font font = new Font("Georgia", Font.PLAIN, 12);
+        Font font = new Font("Georgia", Font.PLAIN, 14);
 
         JFrame search_f = new JFrame();
-        search_f.setTitle(" TODO PUT IN MAP FRAME");
+        search_f.setTitle("SEARCH FIELD");
         search_f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         search_f.setLayout(new BorderLayout());
-        search_f.setSize(550, 500);
+        search_f.setSize(600, 200);
         search_f.setResizable(false);
 
         GridBagLayout gbl = new GridBagLayout();
@@ -227,44 +223,63 @@ public class Main {
 
         JPanel panel = new JPanel(gbl);
 
-        JTextField sourceCityInput = new JTextField(6);
-        sourceCityInput.setFont(font);
-        JTextField sourceStateInput = new JTextField(3);
-        sourceStateInput.setFont(font);
-        JButton sourceBtn = new JButton("ADD");
-        JLabel labelResultS = new JLabel();
-
-        JTextField destCityInput = new JTextField(6);
-        sourceCityInput.setFont(font);
-        JTextField destStateInput = new JTextField(3);
-        sourceStateInput.setFont(font);
-        JButton destBtn = new JButton("ADD ");
-        JLabel labelResultD = new JLabel();
+        SearchField source = new SearchField(6, 1, 85, 2, new Font("Georgia", Font.PLAIN, 14), "ADD", "#90ee90");
+        SearchField dest = new SearchField(6, 1, 85, 2, new Font("Georgia", Font.PLAIN, 14), "ADD", "#90ee90");
 
 
-        sourceBtn.addActionListener(new ActionListener() {
+        source.btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // read SOURCE input
 
-                String city = sourceCityInput.getText();
-                String state = sourceStateInput.getText();
+                String city = source.getCityInput();
+                String state = source.getStateInput();
 
-                double[] retval = geocodeHandler(city, state);
-                labelResultS.setText(Arrays.toString(retval));
+                System.out.println(city + "\t" + state);
+
+                // check valid input valid (City, State)
+                String msg = source.checkValidInput(city, state);
+
+                // Search string for CSV's (if present)
+                String searchString = city + " " + state;
+
+                int found = checkCityCSV(cities, searchString);
+
+                if(found != -1 && msg.length() == 0){
+                    // use existing data from CSV files
+                    source.setResults("IN CSV" + "x: " + cities[found].getX() + "y: " + cities[found].getY());
+                }
+
+                else{
+                    // calc. distance ourself (bunch of work, to then distances between EXISTING links in CSVs
+                    //double[] retval = geocodeHandler(city, state);
+                    //labelResultS.setText(Arrays.toString(retval));
+
+                    source.setResults(msg);
+                }
             }
         });
 
-        destBtn.addActionListener(new ActionListener() {
+
+        dest.btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // read DEST input
 
-                String city = destCityInput.getText();
-                String state = destStateInput.getText();
+                String city = source.getCityInput();
+                String state = source.getStateInput();
 
-                double[] retval = geocodeHandler(city, state);
-                labelResultD.setText(Arrays.toString(retval));
+                String msg = source.checkValidInput(city, state);
+                String searchString = city + " " + state;
+
+                int found2 = checkCityCSV(cities, searchString);
+
+                if(found2 != -1)   dest.setResults("IN CSV" + "x: " + cities[found2].getX() + "y: " + cities[found2].getY());
+                else{
+                    //double[] retval = geocodeHandler(city, state);
+//                    //labelResultD.setText(Arrays.toString(retval));
+                    source.setResults(msg);
+                }
             }
         });
 
@@ -295,22 +310,22 @@ public class Main {
 
         gbc.gridx = 1;
         gbc.gridy = 1;
-        panel.add(sourceCityInput, gbc);
+        panel.add(source.cityInput, gbc);
 
         gbc.gridx = 2;
         gbc.gridy = 1;
         gbc.ipadx = 60;
-        panel.add(sourceStateInput, gbc);
+        panel.add(source.stateInput, gbc);
 
         gbc.insets = (isLeft);
         gbc.gridx = 3;
         gbc.gridy = 1;
-        panel.add(sourceBtn, gbc);
+        panel.add(source.btn, gbc);
 
         gbc.insets = (isLeft);
         gbc.gridx = 4;
         gbc.gridy = 1;
-        panel.add(labelResultS, gbc);
+        panel.add(source.resultsLabel, gbc);
 
         gbc.insets = (new Insets(0, 0, 0, 0));
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -320,22 +335,21 @@ public class Main {
 
         gbc.gridx = 1;
         gbc.gridy = 2;
-        panel.add(destCityInput, gbc);
+        panel.add(dest.cityInput, gbc);
 
         gbc.gridx = 2;
         gbc.gridy = 2;
-        panel.add(destStateInput, gbc);
+        panel.add(dest.stateInput, gbc);
 
         gbc.insets = (isLeft);
         gbc.gridx = 3;
         gbc.gridy = 2;
-        panel.add(destBtn, gbc);
+        panel.add(dest.btn, gbc);
 
         gbc.insets = (isLeft);
         gbc.gridx = 4;
         gbc.gridy = 2;
-        panel.add(labelResultD, gbc);
-
+        panel.add(dest.resultsLabel, gbc);
 
         panel.setVisible(true);
         search_f.add(panel);
@@ -343,6 +357,8 @@ public class Main {
     }
 
     static double[] geocodeHandler(String city, String state){
+        // at this point, error handling detected no errors, and the
+        // user's request is for a city, state not located in ours CSV files.
 
         if(!city.isEmpty()){
             // still works but only city, both would be better
@@ -371,6 +387,24 @@ public class Main {
             }
         }
         return null;
+    }
+
+    static int checkCityCSV(Cities[] cities, String location){
+        // check if city searched is on map (and in CSV files)
+        // if no, go different path
+
+        location = location.replaceAll("\\s", ""); // remove all spaces to perform search. ex. "ST.PAUL" vs "ST. PAUL"
+
+//        for(int i = 0; i<cities.length; ++i){
+        for(int i = 0; i<150; ++i){
+            String name = cities[i].getName();
+            name = name.replaceAll("\\s", "");
+            if(name.compareToIgnoreCase(location) == 0) return i;
+
+            //if(cities[i].getName().compareToIgnoreCase(location) == 0) return i;
+        }
+
+        return -1;
     }
 
 }
