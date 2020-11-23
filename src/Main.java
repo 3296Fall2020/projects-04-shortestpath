@@ -209,8 +209,6 @@ public class Main {
     static void SearchField(Cities[] cities) {
         // Four Text Fields for user input: SOURCE input "city, state" && DEST input "city, state"
 
-        Font font = new Font("Georgia", Font.PLAIN, 14);
-
         JFrame search_f = new JFrame();
         search_f.setTitle("SEARCH FIELD");
         search_f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -239,11 +237,13 @@ public class Main {
 
                 // check valid input valid (City, State)
                 String msg = source.checkValidInput(city, state);
+                System.out.println("msg: " + msg);
 
                 // Search string for CSV's (if present)
                 String searchString = city + " " + state;
 
                 int found = checkCityCSV(cities, searchString);
+                System.out.println("found:" + found);
 
                 if(found != -1 && msg.length() == 0){
                     // use existing data from CSV files
@@ -266,19 +266,20 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 // read DEST input
 
-                String city = source.getCityInput();
-                String state = source.getStateInput();
+                String city = dest.getCityInput();
+                String state = dest.getStateInput();
 
-                String msg = source.checkValidInput(city, state);
+                String msg = dest.checkValidInput(city, state);
                 String searchString = city + " " + state;
 
                 int found2 = checkCityCSV(cities, searchString);
+                System.out.println(found2);
 
                 if(found2 != -1)   dest.setResults("IN CSV" + "x: " + cities[found2].getX() + "y: " + cities[found2].getY());
                 else{
                     //double[] retval = geocodeHandler(city, state);
 //                    //labelResultD.setText(Arrays.toString(retval));
-                    source.setResults(msg);
+                    dest.setResults(msg);
                 }
             }
         });

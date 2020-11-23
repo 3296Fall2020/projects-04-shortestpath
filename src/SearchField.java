@@ -46,7 +46,6 @@ public class SearchField {
 
 
     public void setResults(String msg){
-        System.out.println(msg);
         resultsLabel.setText(msg);
     }
 
@@ -55,11 +54,14 @@ public class SearchField {
         // Letters only (a-Z, A-Z), City can contain '.', State cannot
         // state input ALREADY restricted to 2 characters, city input ALREADY restricted to 85 characters.
 
+        city = city.replaceAll("\\s", ""); // remove spaces
+
         if(!city.matches("[a-zA-Z]*")){
+            System.out.println("1");
             if(!city.contains(".")) return "Invalid, letters only!";
         }
 
-        if(!state.matches("[a-zA-Z]*")) return "Invalid, letters only!";
+        if(!state.matches("[a-zA-Z]*")) return "Invalid, letters only for state!";
 
         return "";
     }
