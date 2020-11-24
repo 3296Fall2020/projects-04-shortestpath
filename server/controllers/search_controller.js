@@ -1,16 +1,16 @@
 const t = require("dotenv").config({path: __dirname + '/.env'});
 //const axios = require("axios"); 
-const {Client} = require("@googlemaps/google-maps-services-js");
+const { Client } = require("@googlemaps/google-maps-services-js");
 
 module.exports.get_geocoding = async (req, res) => {
   // given query string for location, make request to some google maps api to get geocoding for that location 
   // send geocoding + other info back to java client
 
   // READ url params (country will always be USA)
+  // already error-handeled in our java app, and only the city
+  // field is required
   let city = req.query.city !== undefined ? req.query.city : "";
   let state = req.query.state !== undefined ? req.query.state : "";
-  //city = city.replace(/\s+/g, "%20").toUpperCase();
-  //state = state.replace(/\s+/g, "%20").toUpperCase();
 
   console.log("city: " + city);
   console.log("state: " + state);

@@ -38,14 +38,13 @@ public class Main {
 
 
         // a new scrollable map of the city and their corresponding links
-        DrawTheMap(countOfCities, cities, countOfLinks, links);
+        MapOfCities map = DrawTheMap(countOfCities, cities, countOfLinks, links);
 
         // user input, SOURCE, DEST
-        SearchField(cities);
+        SearchField(cities, map);
 
         // get the users input (starting point and destination)
         InputOfTheUser(cities, countOfCities);
-
 
     } // end main
     //************************************************************************
@@ -173,7 +172,7 @@ public class Main {
 
     }
 
-    static void DrawTheMap(int countOfCities, Cities[] cities, int countOfLinks, Edges[] links){
+    static MapOfCities DrawTheMap(int countOfCities, Cities[] cities, int countOfLinks, Edges[] links){
         // using Jframe to create a frame for the map
         JFrame mapFrame = new JFrame();
 
@@ -196,21 +195,25 @@ public class Main {
             @Override //I override only one method for presentation
             public void mousePressed(MouseEvent e) {
                 System.out.println(e.getX() + "," + e.getY());
+
+                // testing
+                map.setSource(e.getX(), e.getY());
+                map.repaint();
             }
         });
 
         // show the map
         mapFrame.setVisible(true);
 
-
+        return map;
     }// end DrawTheMap()
 
 
-    static void SearchField(Cities[] cities) {
+    static void SearchField(Cities[] cities, MapOfCities map) {
         // Four Text Fields for user input: SOURCE input "city, state" && DEST input "city, state"
 
         JFrame search_f = new JFrame();
-        search_f.setTitle("SEARCH FIELD");
+        search_f.setTitle("SEARCH FIELD (ALL CITIES)");
         search_f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         search_f.setLayout(new BorderLayout());
         search_f.setSize(600, 200);
@@ -248,6 +251,9 @@ public class Main {
                 if(found != -1 && msg.length() == 0){
                     // use existing data from CSV files
                     source.setResults("IN CSV" + "x: " + cities[found].getX() + "y: " + cities[found].getY());
+
+                    // HIGHLIGHT ON MAP
+                    map.setSource(cities[found].getX(), cities[found].getY());
                 }
 
                 else{
@@ -256,6 +262,10 @@ public class Main {
                     //labelResultS.setText(Arrays.toString(retval));
 
                     source.setResults(msg);
+
+                    // testing
+                    //double retval = calcDistTemp(lat, lng);
+                   // System.out.println(retval);
                 }
             }
         });
@@ -275,7 +285,12 @@ public class Main {
                 int found2 = checkCityCSV(cities, searchString);
                 System.out.println(found2);
 
-                if(found2 != -1)   dest.setResults("IN CSV" + "x: " + cities[found2].getX() + "y: " + cities[found2].getY());
+                if(found2 != -1)   {
+                    dest.setResults("IN CSV" + "x: " + cities[found2].getX() + "y: " + cities[found2].getY());
+
+                    // HIGHLIGHT ON MAP
+                    map.setDest(cities[found2].getX(), cities[found2].getY());
+                }
                 else{
                     //double[] retval = geocodeHandler(city, state);
 //                    //labelResultD.setText(Arrays.toString(retval));
@@ -406,6 +421,34 @@ public class Main {
         }
 
         return -1;
+    }
+
+    // JUST TESTING
+    static double calcDistTemp(double lat1, double lng1, double lat2, double lng2){
+        // Haversine formula ...
+        // dist = 2r arcsin sqrt(sin^2((lat2-lat1)/2)) + cos(lat1)cos(lat2) * sin^2((lng2-lng1)/2)))
+        // r is Earth's radius in km: 6371
+        //double temp = calcDistTemp(40.7128, 74.0060, 39.9526, 75.1652);
+
+        double distLat = Math.toRadians(lat2 - lat1);
+        double distLng = Math.toRadians(lng2 - lng1);
+
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // formula defined above
+        double a = Math.pow(Math.sin(distLat / 2), 2) +
+                Math.pow(Math.sin(distLng / 2), 2) *
+                        Math.cos(lat1) *
+                        Math.cos(lat2);
+
+        double earthRadius = 6371; // in km
+        double c = 2 * Math.asin(Math.sqrt(a));
+        double temp = earthRadius * c;
+        System.out.println(temp);
+
+        return earthRadius * c;
+
     }
 
 }

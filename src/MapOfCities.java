@@ -7,8 +7,12 @@ public class MapOfCities extends JPanel {
     Edges[] links = new Edges[1750];  // array for max of edges 1750
     int countOfLinks;                  // the number of links
 
-    MapOfCities() {
+    private int sourceX = 0;
+    private int sourceY = 0;
+    private int destX = 0;
+    private int destY = 0;
 
+    MapOfCities() {
     }
 
     MapOfCities(int cityCount, Cities[] city, int linkCount, Edges[] link) {
@@ -20,7 +24,9 @@ public class MapOfCities extends JPanel {
 
     } // end Cities Canvas
 
+
     public void paint(Graphics g) {
+
 
         // color for the background
         g.setColor(Color.WHITE);
@@ -59,6 +65,17 @@ public class MapOfCities extends JPanel {
             g.drawLine(xS, yS, xD, yD);
         } // end for
 
+        // if repaint, highlight selected point/s
+        if(sourceX != 0 && sourceY != 0){
+            g.setColor(Color.decode("#00468b"));
+            g.fillOval(sourceX, sourceY, 15, 15);
+        }
+
+        if(destX != 0 && destY != 0){
+            g.setColor(Color.decode("#00468b"));
+            g.fillOval(destX, destY, 15, 15);
+        }
+
 
         //add a text
         Graphics g2 = (Graphics) g;
@@ -79,5 +96,20 @@ public class MapOfCities extends JPanel {
         Image note = new ImageIcon("info.jpg").getImage();
         g.drawImage(note, 110, 600, null);
     }// end paint
+
+
+    public void setSource(int sourceX, int sourceY){
+        this.sourceX = sourceX;
+        this.sourceY = sourceY;
+    }
+
+    public void setDest(int destX, int destY){
+        this.destX = destX;
+        this.destY = destY;
+    }
+
+
+
+
 }// end MapOfCities()
 
