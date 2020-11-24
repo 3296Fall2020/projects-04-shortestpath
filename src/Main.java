@@ -254,6 +254,7 @@ public class Main {
 
                     // HIGHLIGHT ON MAP
                     map.setSource(cities[found].getX(), cities[found].getY());
+                    map.repaint();
                 }
 
                 else{
@@ -290,6 +291,7 @@ public class Main {
 
                     // HIGHLIGHT ON MAP
                     map.setDest(cities[found2].getX(), cities[found2].getY());
+                    map.repaint();
                 }
                 else{
                     //double[] retval = geocodeHandler(city, state);
