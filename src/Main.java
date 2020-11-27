@@ -36,6 +36,8 @@ public class Main {
         // load links from the cvs file
         countOfLinks = loadLinks(links, cities);
 
+        // create adjacency list for each city base on the array of links
+        createAdjacencyLists(countOfCities, cities, countOfLinks, links);
 
         // a new scrollable map of the city and their corresponding links
         MapOfCities map = DrawTheMap(countOfCities, cities, countOfLinks, links);
@@ -156,21 +158,173 @@ public class Main {
 
     //    *******************************************************************************
 
-    public static void InputOfTheUser(Cities[] cities, int countOfCities){
+    static void createAdjacencyLists(int countOfCities, Cities[] cities, int linkCount, Edges[] links) {
+
+        AdjacentNodes temp = new AdjacentNodes();
+
+        // iterate cities array
+        for (int i = 0; i < countOfCities; i++) {
+
+            /* Iterate the link array in reverse order.
+               each new link will be placed at the head of the list
+               resulting in a list in alphabetical order.*/
+            for (int j = linkCount-1; j >= 0; j--) {
+
+                /* if the current link's source is the current city, then
+                   create a node for the link and insert it into the
+                   adjancency list as the new head of the list. */
+                if (links[j].getSource() == cities[i]) {
+
+                    // temporarily store the current value of the list's head
+                    temp = cities[i].getAdjacentHead();
+
+                    //create a new node
+                    AdjacentNodes newNode = new AdjacentNodes();
+
+                    // add city and distance data
+                    newNode.setCity(links[j].getDestination());
+                    newNode.setDistance(links[j].getLength());
+
+                    // point newNode to the previous list head
+                    newNode.setNext(temp);
+
+                    // set the new head of the list to newNode
+                    cities[i].setAdjacentHead(newNode);
+
+                }  // end if
+            } // end for j  (iterate links)
+        } // end for i (iterate cities)
+
+    } // end createAdjacencyLists() ********************************************
+
+    public static void InputOfTheUser(Cities[] cities, int countOfCities) {
         String currentPosition;   // current position of the user
         String destination;    // destination where the user wants to go
+        int currentIndex;  // current index of unchecked city to be worked with
+        int nextIndex = 0;  // next index to be worked with
+        AdjacentNodes currentAdjacent;  // current node in the list
 
         Scanner user = new Scanner(System.in);
 
-        System.out.println("Please enter name of the city followed by the state you want to start from: ");
+        System.out.println("\n- This program will find the shortest path between two cities.");
+
+        System.out.println("\nPlease enter name of the city followed by the state you want to start from: ");
         currentPosition = user.nextLine();
         System.out.println("Please enter name of the city followed by the state you want to go to: ");
         destination = user.nextLine();
 
-        System.out.println("The shortest path from " + currentPosition+ " to " + destination +":");
-        System.out.println("Coming Soon :)!");
+        for (currentIndex = 0; currentIndex < countOfCities; currentIndex++) {
+            if (cities[currentIndex].getName().equalsIgnoreCase(currentPosition)) {
+                cities[currentIndex].setBestDistance(0);
+                break;
+            }// end if
+        }// end for
 
-    }
+        while (notFullyVisited(cities, countOfCities)) {
+
+            Cities temp = new Cities();
+            currentAdjacent = cities[currentIndex].getAdjacentHead();
+
+            // Dijkstra's Algorithm
+            while (!(currentAdjacent == null)) {
+
+                // adds current city's best distance to one of it's adjacent
+                // city's best distance
+                int currentDistance = cities[currentIndex].getBestDistance() +
+                        currentAdjacent.getCitiesDistance();
+
+                if (currentDistance < currentAdjacent.getCities().getBestDistance()) {
+                    currentAdjacent.getCities().setBestDistance(currentDistance);
+                    currentAdjacent.getCities().setIsNext(cities[currentIndex]);
+                }// end if
+
+                currentAdjacent = currentAdjacent.next;
+
+            }// end while
+
+            // Set the current city's adjacent city as visited
+            cities[currentIndex].setVisited(true);
+
+            temp.setBestDistance(Integer.MAX_VALUE);
+
+            // loop to find the next city with lowest distance
+            for (currentIndex = 0; currentIndex < countOfCities; currentIndex++){
+                if((cities[currentIndex].getBestDistance() < temp.getBestDistance())
+                        && (cities[currentIndex].getVisited() == false))
+                {
+                    temp.setBestDistance(cities[currentIndex].getBestDistance());
+                    nextIndex = currentIndex;
+                }// end if
+            }// end for
+
+            currentIndex = nextIndex;
+
+        }// end while
+
+            System.out.println("The shortest path from " + currentPosition + " to " + destination + ":");
+            shortestPathPoints(cities, countOfCities, destination);
+
+
+    } //end InputOfTheUser
+
+
+    //printing shortest way between the source and destination
+    public static void shortestPathPoints(Cities[] cities, int countOfCities, String s){
+
+        Cities current = null;
+        String[] points = new String[150]; //max points including the starting point
+
+        int pointsCount = -1;
+
+        for (int i = 0; i < countOfCities; i++){
+            if(cities[i].getName().equalsIgnoreCase(s)){
+                current = cities[i];
+                break;
+            }// end if
+        }// end for
+
+        while (current != null){
+            points[++pointsCount] = current.getName();
+            current = current.getIsNext();
+        }// end while
+        System.out.println("\nThe path including starting point: ");
+        for (int i = pointsCount; i > 0; i--){
+
+            System.out.println("- " + points[i] );
+
+            pointsCount--;
+        }// end for
+
+        System.out.println("- " +points[pointsCount--] );
+
+        System.out.println("Path created");
+
+    }// end shortestPath
+
+    // The function above checks if all of the cities (array of object of class Cities) are visited or not.
+    // The function returns true if any city is not visited or else returns false
+    // (means all cities are visited). Where getVisited() is function inside Cities
+    // class which mentions if city (single city) is visited or not.
+    public static boolean notFullyVisited(Cities[] cities, int countOfCities){
+        // initializing notVisited to false
+        boolean notVisited = false;
+
+        //loop to iterate the array elements (objects)
+        for (int i = 0; i < countOfCities; i++){
+
+            //calling getVisited function for each object and inversing the result using '!'
+            //statements inside will be executed if city is not visited (getVisited returns false)
+            if (!(cities[i].getVisited())){
+
+                //set the notVisited to true as any one city from array if Cities is not visited
+                notVisited = true;
+                break;
+            }// end if
+        }// end for
+
+        return notVisited;
+
+    }// end notFullyVisited
 
     static MapOfCities DrawTheMap(int countOfCities, Cities[] cities, int countOfLinks, Edges[] links){
         // using Jframe to create a frame for the map
@@ -208,7 +362,7 @@ public class Main {
         return map;
     }// end DrawTheMap()
 
-
+// *****************************************************************************************************
     static void SearchField(Cities[] cities, MapOfCities map) {
         // Four Text Fields for user input: SOURCE input "city, state" && DEST input "city, state"
 

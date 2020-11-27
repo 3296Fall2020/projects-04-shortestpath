@@ -1,13 +1,13 @@
-public class Cities {
+public class CitiesInfo {
 
     private String name; 	// name of the city
     private int x;  		// city's x-coordinate for drawing
     private int y;  		// city's y-coordinate for drawing
 
-    Cities() {
+    CitiesInfo() {
     }
 
-    Cities(String name, int x, int y) {
+    CitiesInfo(String name, int x, int y) {
         this.name = name;
         this.x = x;
         this.y = y;
