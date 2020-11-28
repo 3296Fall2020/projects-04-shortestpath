@@ -4,12 +4,18 @@ import java.awt.*;
 public class SearchField {
     // Source and City will use this class for obj. to contain: CityLabel, CityInput, StateLabel, StateInput, AddBtn, Result/ErrorField
 
-    JTextField cityInput;
-    JTextField stateInput;
-    int cols;
-    JButton btn;
-    JLabel resultsLabel;
-    Font font;
+    public JTextField cityInput;
+    public JTextField stateInput;
+    public JButton btn;
+    public JLabel resultsLabel;
+    public JComboBox<String> states;
+    private int cols;
+    private Font font;
+    private String[] STATES = {"", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",
+                                "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN",
+                                    "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"}; // no AL, HI, DC
+
+
 
     SearchField(){
         this.font = new Font("Georgia", Font.PLAIN, 12);
@@ -34,6 +40,9 @@ public class SearchField {
         this.btn.setBackground(Color.decode(btnColor));
 
         resultsLabel = new JLabel("");
+
+        this.states = new JComboBox<String>(STATES);
+        this.states.setFont(new Font("Georgia", Font.BOLD, 14));
     }
 
     public String getCityInput(){
@@ -42,6 +51,10 @@ public class SearchField {
 
     public String getStateInput(){
         return stateInput.getText().trim();
+    }
+
+    public String getStateSelection(){
+        return states.getSelectedItem().toString();
     }
 
 

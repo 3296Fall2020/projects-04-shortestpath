@@ -46,7 +46,7 @@ public class Main {
         SearchField(cities, map);
 
         // get the users input (starting point and destination)
-        InputOfTheUser(cities, countOfCities);
+       // InputOfTheUser(cities, countOfCities);
 
     } // end main
     //************************************************************************
@@ -358,6 +358,7 @@ public class Main {
 
         // show the map
         mapFrame.setVisible(true);
+        mapFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         return map;
     }// end DrawTheMap()
@@ -370,7 +371,7 @@ public class Main {
         search_f.setTitle("SEARCH FIELD (ALL CITIES)");
         search_f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         search_f.setLayout(new BorderLayout());
-        search_f.setSize(600, 200);
+        search_f.setSize(700, 200);
         search_f.setResizable(false);
 
         GridBagLayout gbl = new GridBagLayout();
@@ -382,13 +383,15 @@ public class Main {
         SearchField dest = new SearchField(6, 1, 85, 2, new Font("Georgia", Font.PLAIN, 14), "ADD", "#90ee90");
 
 
+
         source.btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // read SOURCE input
 
                 String city = source.getCityInput();
-                String state = source.getStateInput();
+               // String state = source.getStateInput();
+                String state = source.getStateSelection();
 
                 System.out.println(city + "\t" + state);
 
@@ -432,7 +435,8 @@ public class Main {
                 // read DEST input
 
                 String city = dest.getCityInput();
-                String state = dest.getStateInput();
+                //String state = dest.getStateInput();
+                String state = dest.getStateSelection();
 
                 String msg = dest.checkValidInput(city, state);
                 String searchString = city + " " + state;
@@ -465,16 +469,19 @@ public class Main {
         gbc.ipady = 20;
         panel.add(new JLabel(""), gbc);
 
+
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.ipadx = 50;
+        gbc.ipadx = 20;
         gbc.ipady = 20;
         panel.add(new JLabel("CITY"), gbc);
 
+        gbc.insets = (new Insets(0, 30, 0, 0));
         gbc.gridx = 2;
         gbc.gridy = 0;
         panel.add(new JLabel("STATE"), gbc);
 
+        gbc.insets = (new Insets(0, 0, 0, 0));
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -484,10 +491,12 @@ public class Main {
         gbc.gridy = 1;
         panel.add(source.cityInput, gbc);
 
+        gbc.insets = (new Insets(0, 10, 5, 0));
         gbc.gridx = 2;
         gbc.gridy = 1;
         gbc.ipadx = 60;
-        panel.add(source.stateInput, gbc);
+       // panel.add(source.stateInput, gbc);
+        panel.add(source.states, gbc);
 
         gbc.insets = (isLeft);
         gbc.gridx = 3;
@@ -499,6 +508,8 @@ public class Main {
         gbc.gridy = 1;
         panel.add(source.resultsLabel, gbc);
 
+
+
         gbc.insets = (new Insets(0, 0, 0, 0));
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
@@ -509,9 +520,11 @@ public class Main {
         gbc.gridy = 2;
         panel.add(dest.cityInput, gbc);
 
+        gbc.insets = (new Insets(0, 10, 0, 0));
         gbc.gridx = 2;
         gbc.gridy = 2;
-        panel.add(dest.stateInput, gbc);
+        //panel.add(dest.stateInput, gbc);
+        panel.add(dest.states, gbc);
 
         gbc.insets = (isLeft);
         gbc.gridx = 3;

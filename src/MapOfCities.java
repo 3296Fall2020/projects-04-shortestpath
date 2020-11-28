@@ -77,6 +77,8 @@ public class MapOfCities extends JPanel {
         }
 
 
+
+
         //add a text
         Graphics g2 = (Graphics) g;
         g2.setColor(Color.RED);
