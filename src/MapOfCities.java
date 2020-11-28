@@ -7,10 +7,19 @@ public class MapOfCities extends JPanel {
     Edges[] links = new Edges[1750];  // array for max of edges 1750
     int countOfLinks;                  // the number of links
 
+
+    private static final int MAP_WIDTH = 1600;
+    private static final int MAP_HEIGHT = 900;
+
+    private static final double MAX_LAT = 50.0; // 45!
+
+
     private int sourceX = 0;
     private int sourceY = 0;
     private int destX = 0;
     private int destY = 0;
+
+    private boolean showLinks;
 
     MapOfCities() {
     }
@@ -21,6 +30,7 @@ public class MapOfCities extends JPanel {
         this.countOfCities = cityCount;
         this.links = link;
         this.countOfLinks = linkCount;
+        this.showLinks = true;
 
     } // end Cities Canvas
 
@@ -53,17 +63,21 @@ public class MapOfCities extends JPanel {
         } // end for
 
         // draw links
-        for (int i = 0; i < countOfLinks; i++) {
+        if(showLinks) {
+            for (int i = 0; i < countOfLinks; i++) {
 
-            // get the coordinations for the source and destination
-            int xS = links[i].getSource().getX();       // x coordination for the source
-            int yS = links[i].getSource().getY();       // y coordination for the source
-            int xD = links[i].getDestination().getX();	// x coordination for the destination
-            int yD = links[i].getDestination().getY();  // y coordination for the destination
+                // get the coordinations for the source and destination
+                int xS = links[i].getSource().getX();       // x coordination for the source
+                int yS = links[i].getSource().getY();       // y coordination for the source
+                int xD = links[i].getDestination().getX();    // x coordination for the destination
+                int yD = links[i].getDestination().getY();  // y coordination for the destination
 
-            g.setColor(new Color(38, 200, 14));
-            g.drawLine(xS, yS, xD, yD);
-        } // end for
+                g.setColor(new Color(38, 200, 14));
+                g.drawLine(xS, yS, xD, yD);
+            } // end for
+        }
+
+
 
         // if repaint, highlight selected point/s
         if(sourceX != 0 && sourceY != 0){
@@ -110,7 +124,30 @@ public class MapOfCities extends JPanel {
         this.destY = destY;
     }
 
+    public void setShowLinks(boolean show){
+        this.showLinks = show;
+    }
 
+    private double calcX(double lng){
+        // use of MAX_LAT, keep in bounds of USA, as our
+        // map is only of the USA
+
+        return 0.0;
+    }
+
+
+    private double calcY(double lat){
+
+        return 0.0;
+    }
+
+
+    private void addToCSVFile(String location, double x, double y){
+        // Add new city to our CSV file to be re-read and made into Cities obj ...
+
+
+
+    }
 
 
 }// end MapOfCities()

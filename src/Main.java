@@ -4,10 +4,7 @@ import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.*;
 import java.io.*;
 
@@ -383,7 +380,6 @@ public class Main {
         SearchField dest = new SearchField(6, 1, 85, 2, new Font("Georgia", Font.PLAIN, 14), "ADD", "#90ee90");
 
 
-
         source.btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -460,6 +456,21 @@ public class Main {
         });
 
 
+        JCheckBox showLinks = new JCheckBox("show links");
+        showLinks.setSelected(true);
+
+        showLinks.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                // check or un-check to show/not-show links on map
+
+                if(e.getStateChange() == 1) map.setShowLinks(true);
+                else map.setShowLinks(false);
+
+                map.repaint();
+            }
+        });
+
         // LAYOUT
         Insets isLeft = new Insets(0, 10, 0, 0);
 
@@ -480,6 +491,12 @@ public class Main {
         gbc.gridx = 2;
         gbc.gridy = 0;
         panel.add(new JLabel("STATE"), gbc);
+
+        gbc.insets = (isLeft);
+        gbc.gridx = 3;
+        gbc.gridy = 0;
+        panel.add(showLinks, gbc);
+
 
         gbc.insets = (new Insets(0, 0, 0, 0));
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -509,7 +526,6 @@ public class Main {
         panel.add(source.resultsLabel, gbc);
 
 
-
         gbc.insets = (new Insets(0, 0, 0, 0));
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
@@ -535,6 +551,12 @@ public class Main {
         gbc.gridx = 4;
         gbc.gridy = 2;
         panel.add(dest.resultsLabel, gbc);
+
+        gbc.insets = (new Insets(0, 0, 0, 0));
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        //panel.add(new JCheckBox("show links"), gbc);
 
         panel.setVisible(true);
         search_f.add(panel);
