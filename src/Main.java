@@ -1,7 +1,5 @@
-//import org.json.simple.parser.ParseException;
 
 import org.json.simple.parser.ParseException;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -12,7 +10,6 @@ import java.io.*;
 public class Main {
     // main method for the project
     public static void main(String[] args){
-
 
         Cities[] cities = new Cities[170]; //array of cities (Vertices) max = 170
         for (int i = 0; i < cities.length; i++) {
@@ -368,7 +365,7 @@ public class Main {
         search_f.setTitle("SEARCH FIELD (ALL CITIES)");
         search_f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         search_f.setLayout(new BorderLayout());
-        search_f.setSize(700, 200);
+        search_f.setSize(700, 220);
         search_f.setResizable(false);
 
         GridBagLayout gbl = new GridBagLayout();
@@ -378,7 +375,7 @@ public class Main {
 
         SearchField source = new SearchField(6, 1, 85, 2, new Font("Georgia", Font.PLAIN, 14), "ADD", "#90ee90");
         SearchField dest = new SearchField(6, 1, 85, 2, new Font("Georgia", Font.PLAIN, 14), "ADD", "#90ee90");
-
+        JLabel distLabel = new JLabel("");
 
         source.btn.addActionListener(new ActionListener() {
             @Override
@@ -386,7 +383,6 @@ public class Main {
                 // read SOURCE input
 
                 String city = source.getCityInput();
-               // String state = source.getStateInput();
                 String state = source.getStateSelection();
 
                 System.out.println(city + "\t" + state);
@@ -415,11 +411,26 @@ public class Main {
                     //double[] retval = geocodeHandler(city, state);
                     //labelResultS.setText(Arrays.toString(retval));
 
+                    // Add a new City to the MAP!
+
+                    // testing
+                    double lat = 47.6588;
+                    double lng = -117.4260;
+
+                    Cities newCity = addNewCity("", 0, 0);
+
                     source.setResults(msg);
 
                     // testing
                     //double retval = calcDistTemp(lat, lng);
+                    double[] retval = {47.6588, -117.4260};
                    // System.out.println(retval);
+
+                    // within the bounds of the US?
+                    if(isInUSA(retval[0], retval[1])){
+                        // adjust distLabel ...
+                    }
+
                 }
             }
         });
@@ -455,7 +466,6 @@ public class Main {
             }
         });
 
-
         JCheckBox showLinks = new JCheckBox("show links");
         showLinks.setSelected(true);
 
@@ -479,7 +489,6 @@ public class Main {
         gbc.ipadx = 20;
         gbc.ipady = 20;
         panel.add(new JLabel(""), gbc);
-
 
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -539,7 +548,6 @@ public class Main {
         gbc.insets = (new Insets(0, 10, 0, 0));
         gbc.gridx = 2;
         gbc.gridy = 2;
-        //panel.add(dest.stateInput, gbc);
         panel.add(dest.states, gbc);
 
         gbc.insets = (isLeft);
@@ -556,7 +564,8 @@ public class Main {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 3;
-        //panel.add(new JCheckBox("show links"), gbc);
+        distLabel.setForeground(Color.decode("#5E77F9"));
+        panel.add(distLabel, gbc);
 
         panel.setVisible(true);
         search_f.add(panel);
@@ -614,6 +623,13 @@ public class Main {
         return -1;
     }
 
+    static Cities addNewCity(String name, int x, int y){
+        // coordinates converted to plot points on our map
+
+
+        return null;
+    }
+
     // JUST TESTING
     static double calcDistTemp(double lat1, double lng1, double lat2, double lng2){
         // Haversine formula ...
@@ -642,6 +658,20 @@ public class Main {
 
     }
 
+
+    static boolean isInUSA(double lat, double lng){
+        // are the received coordinates within the bounds of the USA
+
+        double MIN_LAT = 24.9493;
+        double MAX_LAT = 49.5904;
+        double MIN_LNG = -125.0011;
+        double MAX_LNG = -66.9326;
+
+        boolean latUS = lat >= MIN_LAT && lat <= MAX_LAT ? true : false;
+        boolean lngUS = lng >= MIN_LNG && lng <= MAX_LNG ? true : false;
+
+        return (latUS && lngUS);
+    }
 }
 
 

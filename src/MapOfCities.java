@@ -7,12 +7,9 @@ public class MapOfCities extends JPanel {
     Edges[] links = new Edges[1750];  // array for max of edges 1750
     int countOfLinks;                  // the number of links
 
-
+    // OUR "usa.jpg" PIXEL INFO
     private static final int MAP_WIDTH = 1600;
     private static final int MAP_HEIGHT = 900;
-
-    private static final double MAX_LAT = 50.0; // 45!
-
 
     private int sourceX = 0;
     private int sourceY = 0;
@@ -36,7 +33,6 @@ public class MapOfCities extends JPanel {
 
 
     public void paint(Graphics g) {
-
 
         // color for the background
         g.setColor(Color.WHITE);
@@ -63,6 +59,7 @@ public class MapOfCities extends JPanel {
         } // end for
 
         // draw links
+        showLinks = false;
         if(showLinks) {
             for (int i = 0; i < countOfLinks; i++) {
 
@@ -79,17 +76,18 @@ public class MapOfCities extends JPanel {
 
 
 
+
+
         // if repaint, highlight selected point/s
         if(sourceX != 0 && sourceY != 0){
             g.setColor(Color.decode("#00468b"));
-            g.fillOval(sourceX, sourceY, 15, 15);
+            g.fillOval(sourceX, sourceY, 8, 8); // MAKE LARGER
         }
 
         if(destX != 0 && destY != 0){
             g.setColor(Color.decode("#00468b"));
-            g.fillOval(destX, destY, 15, 15);
+            g.fillOval(destX, destY, 8, 8);
         }
-
 
 
 
@@ -128,26 +126,6 @@ public class MapOfCities extends JPanel {
         this.showLinks = show;
     }
 
-    private double calcX(double lng){
-        // use of MAX_LAT, keep in bounds of USA, as our
-        // map is only of the USA
-
-        return 0.0;
-    }
-
-
-    private double calcY(double lat){
-
-        return 0.0;
-    }
-
-
-    private void addToCSVFile(String location, double x, double y){
-        // Add new city to our CSV file to be re-read and made into Cities obj ...
-
-
-
-    }
 
 
 }// end MapOfCities()
