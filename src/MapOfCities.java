@@ -59,7 +59,6 @@ public class MapOfCities extends JPanel {
         } // end for
 
         // draw links
-        showLinks = false;
         if(showLinks) {
             for (int i = 0; i < countOfLinks; i++) {
 
@@ -75,19 +74,17 @@ public class MapOfCities extends JPanel {
         }
 
 
-
-
-
         // if repaint, highlight selected point/s
         if(sourceX != 0 && sourceY != 0){
             g.setColor(Color.decode("#00468b"));
-            g.fillOval(sourceX, sourceY, 8, 8); // MAKE LARGER
+            g.fillOval(sourceX-3, sourceY-3, 10, 10);
         }
 
         if(destX != 0 && destY != 0){
             g.setColor(Color.decode("#00468b"));
-            g.fillOval(destX, destY, 8, 8);
+            g.fillOval(destX-3, destY-3, 8, 8);
         }
+
 
 
 

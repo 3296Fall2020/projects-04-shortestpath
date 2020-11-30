@@ -74,7 +74,7 @@ public class Search {
                 break;
         }
 
-        // check valid chordates received
+        // check valid coordinates received
         String lng = success ? response.get("lng").toString() : "";
         String lat = success ? response.get("lat").toString() : "";
 

@@ -1,4 +1,3 @@
-
 import org.json.simple.parser.ParseException;
 import javax.swing.*;
 import java.awt.*;
@@ -37,10 +36,10 @@ public class Main {
         MapOfCities map = DrawTheMap(countOfCities, cities, countOfLinks, links);
 
         // user input, SOURCE, DEST
-        SearchField(cities, map);
+        SearchField(cities, countOfCities,  map);
 
         // get the users input (starting point and destination)
-       // InputOfTheUser(cities, countOfCities);
+        //InputOfTheUser(cities, countOfCities);
 
     } // end main
     //************************************************************************
@@ -358,23 +357,23 @@ public class Main {
     }// end DrawTheMap()
 
 // *****************************************************************************************************
-    static void SearchField(Cities[] cities, MapOfCities map) {
-        // Four Text Fields for user input: SOURCE input "city, state" && DEST input "city, state"
+    static void SearchField(Cities[] cities, int countOfCities, MapOfCities map) {
+        // Four Fields for user input: SOURCE input "city, state" && DEST input "city, state"
 
         JFrame search_f = new JFrame();
         search_f.setTitle("SEARCH FIELD (ALL CITIES)");
         search_f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         search_f.setLayout(new BorderLayout());
-        search_f.setSize(700, 220);
+        search_f.setSize(700, 350);
         search_f.setResizable(false);
 
         GridBagLayout gbl = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();
-
         JPanel panel = new JPanel(gbl);
 
         SearchField source = new SearchField(6, 1, 85, 2, new Font("Georgia", Font.PLAIN, 14), "ADD", "#90ee90");
         SearchField dest = new SearchField(6, 1, 85, 2, new Font("Georgia", Font.PLAIN, 14), "ADD", "#90ee90");
+        Dijkstra dijkstra = new Dijkstra();
         JLabel distLabel = new JLabel("");
 
         source.btn.addActionListener(new ActionListener() {
@@ -401,7 +400,7 @@ public class Main {
                     // use existing data from CSV files
                     source.setResults("IN CSV" + "x: " + cities[found].getX() + "y: " + cities[found].getY());
 
-                    // HIGHLIGHT ON MAP
+                    // HIGHLIGHT PT ON MAP
                     map.setSource(cities[found].getX(), cities[found].getY());
                     map.repaint();
                 }
@@ -416,8 +415,6 @@ public class Main {
                     // testing
                     double lat = 47.6588;
                     double lng = -117.4260;
-
-                    Cities newCity = addNewCity("", 0, 0);
 
                     source.setResults(msg);
 
@@ -466,6 +463,36 @@ public class Main {
             }
         });
 
+        dijkstra.btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // "GO" button, valid when both SOURCE and DEST are filled
+
+                String sourceCity = source.getCityInput();
+                String sourceState = source.getStateSelection();
+                String destCity = dest.getCityInput();
+                String destState = dest.getStateSelection();
+
+                StringBuilder sb = new StringBuilder("");
+                if(sourceCity.isEmpty() && destCity.isEmpty() && sourceCity.isEmpty() && destState.isEmpty()) sb.append("missing all fields");
+                // TODO MORE ERROR HANDLING ... (allow for only city required, todo so will smush the city, state and remove the state, and compare)
+
+                // dest.checkValidInput(city, state);
+                dijkstra.info.setText(sb.toString());
+
+                System.out.println("sourceCity: " + sourceCity + "\t" + "sourceState: " + sourceState);
+
+                String source = sourceCity + " " + sourceState;
+                String dest = destCity + " " +  destState;
+
+                // Both valid, compute shortestPath (return string of cities taken
+                // to get from source to dest)
+                String path = dijkstra.shortestPath(cities, countOfCities, source, dest);
+                dijkstra.path.setText(path);
+            }
+        });
+
+
         JCheckBox showLinks = new JCheckBox("show links");
         showLinks.setSelected(true);
 
@@ -480,6 +507,7 @@ public class Main {
                 map.repaint();
             }
         });
+
 
         // LAYOUT
         Insets isLeft = new Insets(0, 10, 0, 0);
@@ -521,7 +549,6 @@ public class Main {
         gbc.gridx = 2;
         gbc.gridy = 1;
         gbc.ipadx = 60;
-       // panel.add(source.stateInput, gbc);
         panel.add(source.states, gbc);
 
         gbc.insets = (isLeft);
@@ -533,7 +560,6 @@ public class Main {
         gbc.gridx = 4;
         gbc.gridy = 1;
         panel.add(source.resultsLabel, gbc);
-
 
         gbc.insets = (new Insets(0, 0, 0, 0));
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -560,10 +586,27 @@ public class Main {
         gbc.gridy = 2;
         panel.add(dest.resultsLabel, gbc);
 
-        gbc.insets = (new Insets(0, 0, 0, 0));
+        gbc.insets = (new Insets(10, 0, 0, 0));
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 3;
+        gbc.gridy = 3;
+        panel.add(dijkstra.btn, gbc);
+
+        gbc.insets = (new Insets(8, 10, 0, 0));
+        gbc.gridx = 4;
+        gbc.gridy = 3;
+        panel.add(dijkstra.info, gbc);
+
+        gbc.insets = (new Insets(15, 0, 0, 0));
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
+        panel.add(dijkstra.path, gbc);
+
+        gbc.insets = (isLeft);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 5;
         distLabel.setForeground(Color.decode("#5E77F9"));
         panel.add(distLabel, gbc);
 
@@ -577,14 +620,13 @@ public class Main {
         // user's request is for a city, state not located in ours CSV files.
 
         if(!city.isEmpty()){
-            // still works but only city, both would be better
+            // still works with just the city, but both would be better
 
             Map<String, String> location = new HashMap<>();
             location.put("city", city);
             location.put("state", state);
 
             try{
-                // FORMAT BETTER
                 Search search = new Search(8000);
 
                 try{
@@ -623,13 +665,6 @@ public class Main {
         return -1;
     }
 
-    static Cities addNewCity(String name, int x, int y){
-        // coordinates converted to plot points on our map
-
-
-        return null;
-    }
-
     // JUST TESTING
     static double calcDistTemp(double lat1, double lng1, double lat2, double lng2){
         // Haversine formula ...
@@ -658,7 +693,6 @@ public class Main {
 
     }
 
-
     static boolean isInUSA(double lat, double lng){
         // are the received coordinates within the bounds of the USA
 
@@ -673,6 +707,3 @@ public class Main {
         return (latUS && lngUS);
     }
 }
-
-
-

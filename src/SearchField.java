@@ -2,7 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SearchField {
-    // Source and City will use this class for obj. to contain: CityLabel, CityInput, StateLabel, StateInput, AddBtn, Result/ErrorField
+    // Source and City will use this class for obj. to contain: CityLabel, CityInput, StateLabel, StateInput (input or selection based),
+    // AddBtn, Result/ErrorField
 
     public JTextField cityInput;
     public JTextField stateInput;
@@ -13,9 +14,7 @@ public class SearchField {
     private Font font;
     private String[] STATES = {"", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",
                                 "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN",
-                                    "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"}; // no AL, HI, DC
-
-
+                                    "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", "DC"}; // no AL, HI, but DC added
 
     SearchField(){
         this.font = new Font("Georgia", Font.PLAIN, 12);
@@ -39,7 +38,7 @@ public class SearchField {
         this.btn = new JButton(btnTxt);
         this.btn.setBackground(Color.decode(btnColor));
 
-        resultsLabel = new JLabel("");
+        this.resultsLabel = new JLabel("");
 
         this.states = new JComboBox<String>(STATES);
         this.states.setFont(new Font("Georgia", Font.BOLD, 14));
@@ -57,11 +56,9 @@ public class SearchField {
         return states.getSelectedItem().toString();
     }
 
-
     public void setResults(String msg){
         resultsLabel.setText(msg);
     }
-
 
     public String checkValidInput(String city, String state){
         // Letters only (a-Z, A-Z), City can contain '.', State cannot
@@ -78,5 +75,4 @@ public class SearchField {
 
         return "";
     }
-
 }
