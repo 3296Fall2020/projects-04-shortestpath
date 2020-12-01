@@ -387,6 +387,12 @@ public class Main {
                 String city = source.getCityInput();
                 String state = source.getStateSelection();
 
+                // Make sure field not null
+                if(city.isEmpty() || state.isEmpty()){
+                    source.resultsLabel.setText("missing source field");
+                    return;
+                }
+
                 // check valid input valid (City, State)
                 String msg = source.checkValidInput(city, state);
 
@@ -405,11 +411,16 @@ public class Main {
                     dijkstra.path.setText("");
                 }
 
+                else if(msg.length() != 0){
+                    source.resultsLabel.setText(msg);
+                }
+
                 else{
                     // City not on the map, represent with geocode coordinates
 
                     double[] retval = geocodeHandler(city, state);
                     if(isInUSA(retval[0], retval[1])) source.resultsLabel.setText(Arrays.toString(retval)); // within the bounds of the US? display (lat, lng)
+                    else dest.resultsLabel.setText("NOT IN USA");
                     map.setSource(0, 0);
                 }
             }
@@ -424,12 +435,17 @@ public class Main {
                 String city = dest.getCityInput();
                 String state = dest.getStateSelection();
 
-                String msg = dest.checkValidInput(city, state);
+                if(city.isEmpty() || state.isEmpty()){
+                    dest.resultsLabel.setText("missing dest field");
+                    return;
+                }
+
+                String msg2 = dest.checkValidInput(city, state);
                 String searchString = city + " " + state;
 
                 int found2 = checkCityCSV(cities, countOfCities, searchString);
 
-                if(found2 != -1)   {
+                if(found2 != -1 && msg2.length() == 0)   {
                     // HIGHLIGHT ON MAP
 
                     map.setDest(cities[found2].getX(), cities[found2].getY());
@@ -437,11 +453,15 @@ public class Main {
                     dest.resultsLabel.setText("");
                     dijkstra.path.setText("");
                 }
+                else if(msg2.length() != 0){
+                    dest.resultsLabel.setText(msg2);
+                }
                 else{
                     // represent as geocode coordinates
 
                     double[] retval = geocodeHandler(city, state);
                     if(isInUSA(retval[0], retval[1])) dest.resultsLabel.setText(Arrays.toString(retval));
+                    else dest.resultsLabel.setText("NOT IN USA");
                     map.setDest(0,0);
                 }
 
@@ -459,15 +479,44 @@ public class Main {
                 String sourceCity = source.getCityInput();
                 String sourceState = source.getStateSelection();
 
-                String msg = source.checkValidInput(sourceCity, sourceState);
-                String source = sourceCity + " " + sourceState;
-
-                int found = checkCityCSV(cities, countOfCities, source);
-
                 String destCity = dest.getCityInput();
                 String destState = dest.getStateSelection();
 
+
+                // Make sure field not null
+                if (sourceCity.isEmpty() && destCity.isEmpty() && sourceCity.isEmpty() && destState.isEmpty()){
+                    dijkstra.info.setText("missing all fields");
+                    return;
+                }
+                else if(sourceCity.isEmpty() || sourceState.isEmpty()){
+                    dijkstra.info.setText("missing source field");
+                    return;
+                }
+                else if(destCity.isEmpty() || destState.isEmpty()){
+                    dijkstra.info.setText("missing dest field");
+                    return;
+                }
+
+
+                String msg = source.checkValidInput(sourceCity, sourceState);
+                if(!msg.isEmpty()){
+                    source.resultsLabel.setText(msg);
+                    return;
+                }
+
+                // Source is valid at this point
+                String source = sourceCity + " " + sourceState;
+
+                // Check if source is on our map
+                int found = checkCityCSV(cities, countOfCities, source);
+
+
                 String msg2 = dest.checkValidInput(destCity, destState);
+                if(!msg2.isEmpty()){
+                    dest.resultsLabel.setText(msg2);
+                    return;
+                }
+
                 String dest = destCity + " " +  destState;
 
                 int found2 = checkCityCSV(cities, countOfCities, dest);
@@ -485,15 +534,8 @@ public class Main {
                 }
 
                 else {
-                    StringBuilder sb = new StringBuilder("");
-                    if (sourceCity.isEmpty() && destCity.isEmpty() && sourceCity.isEmpty() && destState.isEmpty())
-                        sb.append("missing all fields");
-
-                    // TODO MORE ERROR HANDLING ... (allow for only city required, todo so will smush the city, state and remove the state, and compare)
-
-                    // dest.checkValidInput(city, state);
-                    dijkstra.info.setText(sb.toString());
-
+                    // TODO (allow for only city required, todo so will smush the city, state and remove the state, and compare) ??
+                    
                     // Both valid, compute shortestPath (returns a string of cities taken
                     // to get from source to dest)
                     String path = dijkstra.shortestPath(cities, countOfCities, source, dest);

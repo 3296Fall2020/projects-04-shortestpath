@@ -45,11 +45,14 @@ public class SearchField {
     }
 
     public String getCityInput(){
-        return cityInput.getText().trim();
+
+        if(!cityInput.getText().isEmpty()) return cityInput.getText().trim();
+        else return "";
     }
 
     public String getStateInput(){
-        return stateInput.getText().trim();
+        if(!stateInput.getText().isEmpty()) return stateInput.getText().trim();
+        else return "";
     }
 
     public String getStateSelection(){
