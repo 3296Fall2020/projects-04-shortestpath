@@ -3,11 +3,9 @@ import java.awt.*;
 
 public class Dijkstra {
 
-    private Cities cities;
     public JButton btn;
     public JLabel info;
     public JTextArea path;
-
 
     Dijkstra(){
         this.btn = new JButton("GO");
@@ -16,7 +14,7 @@ public class Dijkstra {
         this.info = new JLabel("");
         this.info.setFont(new Font("Georgia", Font.BOLD, 12));
         this.info.setForeground(Color.decode("#ff4c4c"));
-        this.path = new JTextArea("PATH\nHERE\n");
+        this.path = new JTextArea("");
         this.path.setEditable(false);
         this.path.setFont(new Font("Georgia", Font.BOLD, 14));
         this.path.setForeground(Color.decode("#707070"));
@@ -107,7 +105,7 @@ public class Dijkstra {
     private String shortestPathPoints(Cities[] cities, int countOfCities, String s){
         // to print the shortest way between the source and destination
 
-        StringBuilder sb = new StringBuilder("The path include starting point: \n");
+        StringBuilder sb = new StringBuilder("");
 
         Cities current = null;
         String[] points = new String[150]; //max points including the starting point
@@ -127,7 +125,6 @@ public class Dijkstra {
         }// end while
         for (int i = pointsCount; i > 0; i--){
 
-           // System.out.println("- " + points[i] );
             sb.append("- " + points[i] + "\n");
 
             pointsCount--;
@@ -135,10 +132,8 @@ public class Dijkstra {
 
         sb.append("- " + points[pointsCount--]);
 
-
         return sb.toString();
     }
-
 
     public int totalDistance(Cities[] cities, int countOfCities, String s){
         // TODO

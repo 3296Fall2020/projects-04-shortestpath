@@ -365,7 +365,7 @@ public class Main {
         search_f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         search_f.setLayout(new BorderLayout());
         search_f.setSize(700, 350);
-        search_f.setResizable(false);
+        search_f.setResizable(true);
 
         GridBagLayout gbl = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();
@@ -374,7 +374,7 @@ public class Main {
         SearchField source = new SearchField(6, 1, 85, 2, new Font("Georgia", Font.PLAIN, 14), "ADD", "#90ee90");
         SearchField dest = new SearchField(6, 1, 85, 2, new Font("Georgia", Font.PLAIN, 14), "ADD", "#90ee90");
         Dijkstra dijkstra = new Dijkstra();
-        JLabel distLabel = new JLabel("");
+        JLabel distLabel = new JLabel("Total distance:");
 
         source.btn.addActionListener(new ActionListener() {
             @Override
@@ -388,17 +388,15 @@ public class Main {
 
                 // check valid input valid (City, State)
                 String msg = source.checkValidInput(city, state);
-                System.out.println("msg: " + msg);
 
                 // Search string for CSV's (if present)
                 String searchString = city + " " + state;
 
                 int found = checkCityCSV(cities, searchString);
-                System.out.println("found:" + found);
 
                 if(found != -1 && msg.length() == 0){
                     // use existing data from CSV files
-                    source.setResults("IN CSV" + "x: " + cities[found].getX() + "y: " + cities[found].getY());
+                    //source.setResults("IN CSV" + "x: " + cities[found].getX() + "y: " + cities[found].getY());
 
                     // HIGHLIGHT PT ON MAP
                     map.setSource(cities[found].getX(), cities[found].getY());
@@ -439,23 +437,22 @@ public class Main {
                 // read DEST input
 
                 String city = dest.getCityInput();
-                //String state = dest.getStateInput();
                 String state = dest.getStateSelection();
 
                 String msg = dest.checkValidInput(city, state);
                 String searchString = city + " " + state;
 
                 int found2 = checkCityCSV(cities, searchString);
-                System.out.println(found2);
 
                 if(found2 != -1)   {
-                    dest.setResults("IN CSV" + "x: " + cities[found2].getX() + "y: " + cities[found2].getY());
+                    //dest.setResults("IN CSV" + "x: " + cities[found2].getX() + "y: " + cities[found2].getY());
 
                     // HIGHLIGHT ON MAP
                     map.setDest(cities[found2].getX(), cities[found2].getY());
                     map.repaint();
                 }
                 else{
+
                     //double[] retval = geocodeHandler(city, state);
 //                    //labelResultD.setText(Arrays.toString(retval));
                     dest.setResults(msg);
@@ -475,6 +472,7 @@ public class Main {
 
                 StringBuilder sb = new StringBuilder("");
                 if(sourceCity.isEmpty() && destCity.isEmpty() && sourceCity.isEmpty() && destState.isEmpty()) sb.append("missing all fields");
+
                 // TODO MORE ERROR HANDLING ... (allow for only city required, todo so will smush the city, state and remove the state, and compare)
 
                 // dest.checkValidInput(city, state);
@@ -485,10 +483,10 @@ public class Main {
                 String source = sourceCity + " " + sourceState;
                 String dest = destCity + " " +  destState;
 
-                // Both valid, compute shortestPath (return string of cities taken
+                // Both valid, compute shortestPath (returns a string of cities taken
                 // to get from source to dest)
                 String path = dijkstra.shortestPath(cities, countOfCities, source, dest);
-                dijkstra.path.setText(path);
+                dijkstra.path.setText("The path from \"" + source.toUpperCase() + "\" to \"" + dest.toUpperCase() + "\" ...\n\n" + path);
             }
         });
 
@@ -508,7 +506,6 @@ public class Main {
             }
         });
 
-
         // LAYOUT
         Insets isLeft = new Insets(0, 10, 0, 0);
 
@@ -522,15 +519,17 @@ public class Main {
         gbc.gridy = 0;
         gbc.ipadx = 20;
         gbc.ipady = 20;
+        gbc.gridwidth = 2;
         panel.add(new JLabel("CITY"), gbc);
 
         gbc.insets = (new Insets(0, 30, 0, 0));
-        gbc.gridx = 2;
+        gbc.gridwidth = 1;
+        gbc.gridx = 3;
         gbc.gridy = 0;
         panel.add(new JLabel("STATE"), gbc);
 
         gbc.insets = (isLeft);
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 0;
         panel.add(showLinks, gbc);
 
@@ -543,21 +542,23 @@ public class Main {
 
         gbc.gridx = 1;
         gbc.gridy = 1;
+        gbc.gridwidth = 2;
         panel.add(source.cityInput, gbc);
 
         gbc.insets = (new Insets(0, 10, 5, 0));
-        gbc.gridx = 2;
+        gbc.gridx = 3;
         gbc.gridy = 1;
         gbc.ipadx = 60;
+        gbc.gridwidth = 1;
         panel.add(source.states, gbc);
 
         gbc.insets = (isLeft);
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 1;
         panel.add(source.btn, gbc);
 
         gbc.insets = (isLeft);
-        gbc.gridx = 4;
+        gbc.gridx = 5;
         gbc.gridy = 1;
         panel.add(source.resultsLabel, gbc);
 
@@ -569,27 +570,30 @@ public class Main {
 
         gbc.gridx = 1;
         gbc.gridy = 2;
+        gbc.gridwidth = 2;
         panel.add(dest.cityInput, gbc);
 
         gbc.insets = (new Insets(0, 10, 0, 0));
-        gbc.gridx = 2;
+        gbc.gridwidth = 1;
+        gbc.gridx = 3;
         gbc.gridy = 2;
         panel.add(dest.states, gbc);
 
         gbc.insets = (isLeft);
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 2;
         panel.add(dest.btn, gbc);
 
         gbc.insets = (isLeft);
-        gbc.gridx = 4;
+        gbc.gridx = 5;
         gbc.gridy = 2;
         panel.add(dest.resultsLabel, gbc);
 
         gbc.insets = (new Insets(10, 0, 0, 0));
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 3;
+        gbc.gridx = 0;
         gbc.gridy = 3;
+        gbc.gridwidth = 5;
         panel.add(dijkstra.btn, gbc);
 
         gbc.insets = (new Insets(8, 10, 0, 0));
@@ -603,7 +607,6 @@ public class Main {
         gbc.gridy = 4;
         panel.add(dijkstra.path, gbc);
 
-        gbc.insets = (isLeft);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 5;
