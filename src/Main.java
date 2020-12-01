@@ -36,7 +36,9 @@ public class Main {
         MapOfCities map = DrawTheMap(countOfCities, cities, countOfLinks, links);
 
         // user input, SOURCE, DEST
-        SearchField(cities, countOfCities,  map);
+        SearchField source = new SearchField(6, 1, 85, 2, new Font("Georgia", Font.PLAIN, 14), "ADD", "#90ee90");
+        SearchField dest = new SearchField(6, 1, 85, 2, new Font("Georgia", Font.PLAIN, 14), "ADD", "#90ee90");
+        SearchField(cities, countOfCities,  map, source, dest);
 
         // get the users input (starting point and destination)
         //InputOfTheUser(cities, countOfCities);
@@ -190,6 +192,7 @@ public class Main {
 
     } // end createAdjacencyLists() ********************************************
 
+    /*
     public static void InputOfTheUser(Cities[] cities, int countOfCities) {
         String currentPosition;   // current position of the user
         String destination;    // destination where the user wants to go
@@ -259,6 +262,8 @@ public class Main {
 
 
     } //end InputOfTheUser
+
+     */
 
 
     //printing shortest way between the source and destination
@@ -357,7 +362,7 @@ public class Main {
     }// end DrawTheMap()
 
 // *****************************************************************************************************
-    static void SearchField(Cities[] cities, int countOfCities, MapOfCities map) {
+    static void SearchField(Cities[] cities, int countOfCities, MapOfCities map, SearchField source, SearchField dest) {
         // Four Fields for user input: SOURCE input "city, state" && DEST input "city, state"
 
         JFrame search_f = new JFrame();
@@ -371,8 +376,6 @@ public class Main {
         GridBagConstraints gbc = new GridBagConstraints();
         JPanel panel = new JPanel(gbl);
 
-        SearchField source = new SearchField(6, 1, 85, 2, new Font("Georgia", Font.PLAIN, 14), "ADD", "#90ee90");
-        SearchField dest = new SearchField(6, 1, 85, 2, new Font("Georgia", Font.PLAIN, 14), "ADD", "#90ee90");
         Dijkstra dijkstra = new Dijkstra();
         JLabel distLabel = new JLabel("Total distance:");
 
@@ -399,6 +402,7 @@ public class Main {
                     map.setSource(cities[found].getX(), cities[found].getY());
                     map.repaint();
                     source.resultsLabel.setText("");
+                    dijkstra.path.setText("");
                 }
 
                 else{
@@ -406,6 +410,7 @@ public class Main {
 
                     double[] retval = geocodeHandler(city, state);
                     if(isInUSA(retval[0], retval[1])) source.resultsLabel.setText(Arrays.toString(retval)); // within the bounds of the US? display (lat, lng)
+                    map.setSource(0, 0);
                 }
             }
         });
@@ -430,13 +435,18 @@ public class Main {
                     map.setDest(cities[found2].getX(), cities[found2].getY());
                     map.repaint();
                     dest.resultsLabel.setText("");
+                    dijkstra.path.setText("");
                 }
                 else{
                     // represent as geocode coordinates
 
                     double[] retval = geocodeHandler(city, state);
                     if(isInUSA(retval[0], retval[1])) dest.resultsLabel.setText(Arrays.toString(retval));
+                    map.setDest(0,0);
                 }
+
+                dijkstra.path.setText("");
+                distLabel.setText("Distance: ");
             }
         });
 
@@ -469,10 +479,9 @@ public class Main {
                     double[] sourceGeocode = geocodeHandler(sourceCity, sourceState);
                     double[] destGeocode = geocodeHandler(destCity, destState);
 
-                    //System.out.println(sourceGeocode[0] + " " + sourceGeocode[1] + "\t" + destGeocode[0] + " " + destGeocode[1]);
-
                     double distMiles = calcDistTemp(sourceGeocode[0], sourceGeocode[1], destGeocode[0], destGeocode[1]);
                     distLabel.setText("Distance: " + Double.toString(distMiles) + " (mi)");
+                    dijkstra.path.setText("");
                 }
 
                 else {
@@ -485,13 +494,11 @@ public class Main {
                     // dest.checkValidInput(city, state);
                     dijkstra.info.setText(sb.toString());
 
-                    System.out.println("sourceCity: " + sourceCity + "\t" + "sourceState: " + sourceState);
-
-
                     // Both valid, compute shortestPath (returns a string of cities taken
                     // to get from source to dest)
                     String path = dijkstra.shortestPath(cities, countOfCities, source, dest);
                     dijkstra.path.setText("The path from \"" + source.toUpperCase() + "\" to \"" + dest.toUpperCase() + "\" ...\n\n" + path);
+                    distLabel.setText("Distance: " + dijkstra.getDistance() + "(mi)");
                 }
             }
         });
@@ -710,5 +717,4 @@ public class Main {
 
         return (latUS && lngUS);
     }
-
 }

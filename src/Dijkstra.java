@@ -6,6 +6,7 @@ public class Dijkstra {
     public JButton btn;
     public JLabel info;
     public JTextArea path;
+    private int distance;
 
     Dijkstra(){
         this.btn = new JButton("GO");
@@ -18,6 +19,11 @@ public class Dijkstra {
         this.path.setEditable(false);
         this.path.setFont(new Font("Georgia", Font.BOLD, 14));
         this.path.setForeground(Color.decode("#707070"));
+        this.distance = 0;
+    }
+
+    public int getDistance(){
+        return distance;
     }
 
 
@@ -27,6 +33,8 @@ public class Dijkstra {
         int currentIndex;  // current index of unchecked city to be worked with
         int nextIndex = 0;  // next index to be worked with
         AdjacentNodes currentAdjacent;  // current node in the list
+
+        System.out.println("hello: " + currentPosition + "\t" + destination);
 
         for (currentIndex = 0; currentIndex < countOfCities; currentIndex++) {
             if (cities[currentIndex].getName().equalsIgnoreCase(currentPosition)) {
@@ -105,6 +113,8 @@ public class Dijkstra {
     private String shortestPathPoints(Cities[] cities, int countOfCities, String s){
         // to print the shortest way between the source and destination
 
+        System.out.println(s);
+
         StringBuilder sb = new StringBuilder("");
 
         Cities current = null;
@@ -119,10 +129,13 @@ public class Dijkstra {
             }// end if
         }// end for
 
+        distance = current.getBestDistance(); // this is the DEST node, its best distance is total distance from SOURCE to DEST
+
         while (current != null){
             points[++pointsCount] = current.getName();
             current = current.getIsNext();
         }// end while
+
         for (int i = pointsCount; i > 0; i--){
 
             sb.append("- " + points[i] + "\n");
@@ -133,10 +146,5 @@ public class Dijkstra {
         sb.append("- " + points[pointsCount--]);
 
         return sb.toString();
-    }
-
-    public int totalDistance(Cities[] cities, int countOfCities, String s){
-        // TODO
-        return 0;
     }
 }
