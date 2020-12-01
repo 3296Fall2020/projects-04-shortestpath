@@ -384,48 +384,28 @@ public class Main {
                 String city = source.getCityInput();
                 String state = source.getStateSelection();
 
-                System.out.println(city + "\t" + state);
-
                 // check valid input valid (City, State)
                 String msg = source.checkValidInput(city, state);
 
                 // Search string for CSV's (if present)
                 String searchString = city + " " + state;
 
-                int found = checkCityCSV(cities, searchString);
+                int found = checkCityCSV(cities, countOfCities, searchString);
 
                 if(found != -1 && msg.length() == 0){
                     // use existing data from CSV files
-                    //source.setResults("IN CSV" + "x: " + cities[found].getX() + "y: " + cities[found].getY());
-
                     // HIGHLIGHT PT ON MAP
+
                     map.setSource(cities[found].getX(), cities[found].getY());
                     map.repaint();
+                    source.resultsLabel.setText("");
                 }
 
                 else{
-                    // calc. distance ourself (bunch of work, to then distances between EXISTING links in CSVs
-                    //double[] retval = geocodeHandler(city, state);
-                    //labelResultS.setText(Arrays.toString(retval));
+                    // City not on the map, represent with geocode coordinates
 
-                    // Add a new City to the MAP!
-
-                    // testing
-                    double lat = 47.6588;
-                    double lng = -117.4260;
-
-                    source.setResults(msg);
-
-                    // testing
-                    //double retval = calcDistTemp(lat, lng);
-                    double[] retval = {47.6588, -117.4260};
-                   // System.out.println(retval);
-
-                    // within the bounds of the US?
-                    if(isInUSA(retval[0], retval[1])){
-                        // adjust distLabel ...
-                    }
-
+                    double[] retval = geocodeHandler(city, state);
+                    if(isInUSA(retval[0], retval[1])) source.resultsLabel.setText(Arrays.toString(retval)); // within the bounds of the US? display (lat, lng)
                 }
             }
         });
@@ -442,20 +422,20 @@ public class Main {
                 String msg = dest.checkValidInput(city, state);
                 String searchString = city + " " + state;
 
-                int found2 = checkCityCSV(cities, searchString);
+                int found2 = checkCityCSV(cities, countOfCities, searchString);
 
                 if(found2 != -1)   {
-                    //dest.setResults("IN CSV" + "x: " + cities[found2].getX() + "y: " + cities[found2].getY());
-
                     // HIGHLIGHT ON MAP
+
                     map.setDest(cities[found2].getX(), cities[found2].getY());
                     map.repaint();
+                    dest.resultsLabel.setText("");
                 }
                 else{
+                    // represent as geocode coordinates
 
-                    //double[] retval = geocodeHandler(city, state);
-//                    //labelResultD.setText(Arrays.toString(retval));
-                    dest.setResults(msg);
+                    double[] retval = geocodeHandler(city, state);
+                    if(isInUSA(retval[0], retval[1])) dest.resultsLabel.setText(Arrays.toString(retval));
                 }
             }
         });
@@ -465,28 +445,54 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 // "GO" button, valid when both SOURCE and DEST are filled
 
+                // Validate input again, as ADD just maps the city to a pt on the map
                 String sourceCity = source.getCityInput();
                 String sourceState = source.getStateSelection();
+
+                String msg = source.checkValidInput(sourceCity, sourceState);
+                String source = sourceCity + " " + sourceState;
+
+                int found = checkCityCSV(cities, countOfCities, source);
+
                 String destCity = dest.getCityInput();
                 String destState = dest.getStateSelection();
 
-                StringBuilder sb = new StringBuilder("");
-                if(sourceCity.isEmpty() && destCity.isEmpty() && sourceCity.isEmpty() && destState.isEmpty()) sb.append("missing all fields");
-
-                // TODO MORE ERROR HANDLING ... (allow for only city required, todo so will smush the city, state and remove the state, and compare)
-
-                // dest.checkValidInput(city, state);
-                dijkstra.info.setText(sb.toString());
-
-                System.out.println("sourceCity: " + sourceCity + "\t" + "sourceState: " + sourceState);
-
-                String source = sourceCity + " " + sourceState;
+                String msg2 = dest.checkValidInput(destCity, destState);
                 String dest = destCity + " " +  destState;
 
-                // Both valid, compute shortestPath (returns a string of cities taken
-                // to get from source to dest)
-                String path = dijkstra.shortestPath(cities, countOfCities, source, dest);
-                dijkstra.path.setText("The path from \"" + source.toUpperCase() + "\" to \"" + dest.toUpperCase() + "\" ...\n\n" + path);
+                int found2 = checkCityCSV(cities, countOfCities, dest);
+
+                if(found == -1 || found2 == -1) {
+                    // one of the cities not in csv, only calculate distance between the two cities
+                    // as geocode coordinates
+
+                    double[] sourceGeocode = geocodeHandler(sourceCity, sourceState);
+                    double[] destGeocode = geocodeHandler(destCity, destState);
+
+                    //System.out.println(sourceGeocode[0] + " " + sourceGeocode[1] + "\t" + destGeocode[0] + " " + destGeocode[1]);
+
+                    double distMiles = calcDistTemp(sourceGeocode[0], sourceGeocode[1], destGeocode[0], destGeocode[1]);
+                    distLabel.setText("Distance: " + Double.toString(distMiles) + " (mi)");
+                }
+
+                else {
+                    StringBuilder sb = new StringBuilder("");
+                    if (sourceCity.isEmpty() && destCity.isEmpty() && sourceCity.isEmpty() && destState.isEmpty())
+                        sb.append("missing all fields");
+
+                    // TODO MORE ERROR HANDLING ... (allow for only city required, todo so will smush the city, state and remove the state, and compare)
+
+                    // dest.checkValidInput(city, state);
+                    dijkstra.info.setText(sb.toString());
+
+                    System.out.println("sourceCity: " + sourceCity + "\t" + "sourceState: " + sourceState);
+
+
+                    // Both valid, compute shortestPath (returns a string of cities taken
+                    // to get from source to dest)
+                    String path = dijkstra.shortestPath(cities, countOfCities, source, dest);
+                    dijkstra.path.setText("The path from \"" + source.toUpperCase() + "\" to \"" + dest.toUpperCase() + "\" ...\n\n" + path);
+                }
             }
         });
 
@@ -532,7 +538,6 @@ public class Main {
         gbc.gridx = 4;
         gbc.gridy = 0;
         panel.add(showLinks, gbc);
-
 
         gbc.insets = (new Insets(0, 0, 0, 0));
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -634,8 +639,8 @@ public class Main {
 
                 try{
                     double[] geocode = search.geocoding(new HashMap<>(location));
-                    System.out.println(geocode[0]);
-                    System.out.println(geocode[1]);
+                    //System.out.println("lat: " + geocode[0]);
+                    //System.out.println("lon: " + geocode[1]);
 
                     return geocode;
 
@@ -650,30 +655,25 @@ public class Main {
         return null;
     }
 
-    static int checkCityCSV(Cities[] cities, String location){
+    static int checkCityCSV(Cities[] cities, int countOfCities, String location){
         // check if city searched is on map (and in CSV files)
         // if no, go different path
 
         location = location.replaceAll("\\s", ""); // remove all spaces to perform search. ex. "ST.PAUL" vs "ST. PAUL"
 
-//        for(int i = 0; i<cities.length; ++i){
-        for(int i = 0; i<150; ++i){
+        for(int i = 0; i<countOfCities; ++i){
             String name = cities[i].getName();
             name = name.replaceAll("\\s", "");
             if(name.compareToIgnoreCase(location) == 0) return i;
-
-            //if(cities[i].getName().compareToIgnoreCase(location) == 0) return i;
         }
 
         return -1;
     }
 
-    // JUST TESTING
     static double calcDistTemp(double lat1, double lng1, double lat2, double lng2){
-        // Haversine formula ...
+        // Haversine formula ... (greater circle distance between two geocode coordinates)
         // dist = 2r arcsin sqrt(sin^2((lat2-lat1)/2)) + cos(lat1)cos(lat2) * sin^2((lng2-lng1)/2)))
         // r is Earth's radius in km: 6371
-        //double temp = calcDistTemp(40.7128, 74.0060, 39.9526, 75.1652);
 
         double distLat = Math.toRadians(lat2 - lat1);
         double distLng = Math.toRadians(lng2 - lng1);
@@ -690,14 +690,15 @@ public class Main {
         double earthRadius = 6371; // in km
         double c = 2 * Math.asin(Math.sqrt(a));
         double temp = earthRadius * c;
-        System.out.println(temp);
 
-        return earthRadius * c;
+        double distKm = earthRadius * c;
+
+        return distKm * 0.621371; // in miles (mi)
 
     }
 
     static boolean isInUSA(double lat, double lng){
-        // are the received coordinates within the bounds of the USA
+        // are the received coordinates within the bounds of the USA (don't include HI, or AK)
 
         double MIN_LAT = 24.9493;
         double MAX_LAT = 49.5904;
@@ -709,4 +710,5 @@ public class Main {
 
         return (latUS && lngUS);
     }
+
 }

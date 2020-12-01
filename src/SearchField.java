@@ -56,10 +56,6 @@ public class SearchField {
         return states.getSelectedItem().toString();
     }
 
-    public void setResults(String msg){
-        resultsLabel.setText(msg);
-    }
-
     public String checkValidInput(String city, String state){
         // Letters only (a-Z, A-Z), City can contain '.', State cannot
         // state input ALREADY restricted to 2 characters, city input ALREADY restricted to 85 characters.
