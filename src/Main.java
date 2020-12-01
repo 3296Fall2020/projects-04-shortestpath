@@ -263,7 +263,7 @@ public class Main {
 
     } //end InputOfTheUser
 
-     */
+
 
 
     //printing shortest way between the source and destination
@@ -299,6 +299,7 @@ public class Main {
 
     }// end shortestPath
 
+
     // The function above checks if all of the cities (array of object of class Cities) are visited or not.
     // The function returns true if any city is not visited or else returns false
     // (means all cities are visited). Where getVisited() is function inside Cities
@@ -323,6 +324,7 @@ public class Main {
         return notVisited;
 
     }// end notFullyVisited
+    */
 
     static MapOfCities DrawTheMap(int countOfCities, Cities[] cities, int countOfLinks, Edges[] links){
         // using Jframe to create a frame for the map
@@ -470,6 +472,7 @@ public class Main {
             }
         });
 
+
         dijkstra.btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -481,6 +484,7 @@ public class Main {
 
                 String destCity = dest.getCityInput();
                 String destState = dest.getStateSelection();
+
 
 
                 // Make sure field not null
@@ -534,13 +538,19 @@ public class Main {
                 }
 
                 else {
-                    // TODO (allow for only city required, todo so will smush the city, state and remove the state, and compare) ??
-                    
                     // Both valid, compute shortestPath (returns a string of cities taken
                     // to get from source to dest)
                     String path = dijkstra.shortestPath(cities, countOfCities, source, dest);
                     dijkstra.path.setText("The path from \"" + source.toUpperCase() + "\" to \"" + dest.toUpperCase() + "\" ...\n\n" + path);
                     distLabel.setText("Distance: " + dijkstra.getDistance() + "(mi)");
+
+                    // redraw map, to show path!
+                    ArrayList<String> rPath = dijkstra.getPathRaw();
+                   // System.out.println(rPath);
+
+                    map.setPath(rPath);
+                    map.setShowPath(true);
+                    map.repaint();
                 }
             }
         });

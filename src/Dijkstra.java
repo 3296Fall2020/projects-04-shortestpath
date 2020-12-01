@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Dijkstra {
 
@@ -7,6 +8,7 @@ public class Dijkstra {
     public JLabel info;
     public JTextArea path;
     private int distance;
+    private ArrayList<String> pathRaw;
 
     Dijkstra(){
         this.btn = new JButton("GO");
@@ -20,10 +22,15 @@ public class Dijkstra {
         this.path.setFont(new Font("Georgia", Font.BOLD, 14));
         this.path.setForeground(Color.decode("#707070"));
         this.distance = 0;
+        this.pathRaw = new ArrayList<String>();
     }
 
     public int getDistance(){
         return distance;
+    }
+
+    public ArrayList<String> getPathRaw(){
+        return this.pathRaw;
     }
 
 
@@ -34,7 +41,7 @@ public class Dijkstra {
         int nextIndex = 0;  // next index to be worked with
         AdjacentNodes currentAdjacent;  // current node in the list
 
-        System.out.println("hello: " + currentPosition + "\t" + destination);
+        //System.out.println("hello: " + currentPosition + "\t" + destination);
 
         for (currentIndex = 0; currentIndex < countOfCities; currentIndex++) {
             if (cities[currentIndex].getName().equalsIgnoreCase(currentPosition)) {
@@ -113,9 +120,8 @@ public class Dijkstra {
     private String shortestPathPoints(Cities[] cities, int countOfCities, String s){
         // to print the shortest way between the source and destination
 
-        System.out.println(s);
-
         StringBuilder sb = new StringBuilder("");
+        this.pathRaw = new ArrayList<String>(); // reset
 
         Cities current = null;
         String[] points = new String[150]; //max points including the starting point
@@ -133,16 +139,21 @@ public class Dijkstra {
 
         while (current != null){
             points[++pointsCount] = current.getName();
+            //System.out.println(current.getBestDistance());
+
             current = current.getIsNext();
         }// end while
 
         for (int i = pointsCount; i > 0; i--){
 
             sb.append("- " + points[i] + "\n");
+            pathRaw.add(points[i]);
 
             pointsCount--;
         }// end for
 
+
+        pathRaw.add(points[pointsCount]);
         sb.append("- " + points[pointsCount--]);
 
         return sb.toString();
