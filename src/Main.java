@@ -390,6 +390,20 @@ public class Main {
         return map;
     }// end DrawTheMap()
 
+    public static Cities chosencity(int countofcities, Cities[] cities, int x, int y) {
+    	Cities city = new Cities();
+    	city = null;
+    	for(int i=0;i<countofcities;i++) {
+    		if(cities[i].getX()<x+5&&cities[i].getX()>x-5) {
+    			if(cities[i].getY()<y+5&&cities[i].getY()>y-5) {
+    				city = cities[i];
+    				i=countofcities;
+    			}
+    		}
+    	}
+    	return city;
+    }
+
 // *****************************************************************************************************
     static void SearchField(Cities[] cities, int countOfCities, MapOfCities map, SearchField source, SearchField dest) {
         // Four Fields for user input: SOURCE input "city, state" && DEST input "city, state"
