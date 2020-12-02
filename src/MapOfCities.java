@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class MapOfCities extends JPanel {
@@ -7,8 +8,20 @@ public class MapOfCities extends JPanel {
     Edges[] links = new Edges[1750];  // array for max of edges 1750
     int countOfLinks;                  // the number of links
 
-    MapOfCities() {
+    // OUR "usa.jpg" PIXEL INFO
+    private static final int MAP_WIDTH = 1600;
+    private static final int MAP_HEIGHT = 900;
 
+    private int sourceX = 0;
+    private int sourceY = 0;
+    private int destX = 0;
+    private int destY = 0;
+
+    private boolean showLinks;
+    private boolean showPath;
+    private ArrayList<String> path;
+
+    MapOfCities() {
     }
 
     MapOfCities(int cityCount, Cities[] city, int linkCount, Edges[] link) {
@@ -17,8 +30,11 @@ public class MapOfCities extends JPanel {
         this.countOfCities = cityCount;
         this.links = link;
         this.countOfLinks = linkCount;
+        this.showLinks = true;
+        this.showPath = false;
 
     } // end Cities Canvas
+
 
     public void paint(Graphics g) {
 
@@ -47,18 +63,35 @@ public class MapOfCities extends JPanel {
         } // end for
 
         // draw links
-        for (int i = 0; i < countOfLinks; i++) {
+        if(showLinks) {
+            for (int i = 0; i < countOfLinks; i++) {
 
-            // get the coordinations for the source and destination
-            int xS = links[i].getSource().getX();       // x coordination for the source
-            int yS = links[i].getSource().getY();       // y coordination for the source
-            int xD = links[i].getDestination().getX();	// x coordination for the destination
-            int yD = links[i].getDestination().getY();  // y coordination for the destination
+                // get the coordinations for the source and destination
+                int xS = links[i].getSource().getX();       // x coordination for the source
+                int yS = links[i].getSource().getY();       // y coordination for the source
+                int xD = links[i].getDestination().getX();    // x coordination for the destination
+                int yD = links[i].getDestination().getY();  // y coordination for the destination
 
-            g.setColor(new Color(38, 200, 14));
-            g.drawLine(xS, yS, xD, yD);
-        } // end for
+                g.setColor(new Color(38, 200, 14));
+                g.drawLine(xS, yS, xD, yD);
+            } // end for
+        }
 
+
+        // if repaint, highlight selected point/s
+        if(sourceX != 0 && sourceY != 0){
+            // source blue
+            g.setColor(Color.decode("#00468b"));
+            g.fillOval(sourceX-3, sourceY-3, 12, 12);
+        }
+
+        if(destX != 0 && destY != 0){
+            // dest red
+            g.setColor(Color.decode("#ff1517"));
+            g.fillOval(destX-3, destY-3, 12, 12);
+        }
+
+        if(showPath) drawPath(g); // if shortest path calculated, display
 
         //add a text
         Graphics g2 = (Graphics) g;
@@ -79,5 +112,68 @@ public class MapOfCities extends JPanel {
         Image note = new ImageIcon("info.jpg").getImage();
         g.drawImage(note, 110, 600, null);
     }// end paint
+
+
+    public void setSource(int sourceX, int sourceY){
+        this.sourceX = sourceX;
+        this.sourceY = sourceY;
+    }
+
+    public void setDest(int destX, int destY){
+        this.destX = destX;
+        this.destY = destY;
+    }
+
+    public void setShowPath(boolean set){
+        this.showPath = set;
+    }
+
+    public void setPath(ArrayList<String> path){
+        this.path = path;
+    }
+
+    public void setShowLinks(boolean show){
+        this.showLinks = show;
+    }
+
+    private void drawPath(Graphics g){
+        // helper function to draw shortest path lines
+        // ugly nested for loops, but this was probably the simpliest
+        // way of getting the coordinates for each city in the shortest path
+
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.decode("#9e4f88"));
+        g2d.setStroke(new BasicStroke(3));
+
+
+        int xS = 0, yS = 0, xD = 0, yD = 0;
+
+        for(int i = 0; i<path.size()-1; ++i){
+            // each city in path
+            for(int j = 0; j<countOfCities; ++j){
+                // get current city's x,y position
+                if(cities[j].getName().equalsIgnoreCase(path.get(i))){
+                    //System.out.println("a source:"+ cities[j].getName());
+                    xS = cities[j].getX();
+                    yS = cities[j].getY();
+
+                    for(int k = 0; k<countOfCities; ++k){
+                        // get next city's x,y, position to form line
+                        if(cities[k].getName().equalsIgnoreCase(path.get(i+1))) {
+                            //System.out.println("its dest:"+ cities[k].getName());
+                            xD = cities[k].getX();
+                            yD = cities[k].getY();
+                            break;
+                        }
+                    }
+                    // draw line from one source to one destination
+                    // +3 is center the line as point start top left of our 8x8 points
+                    g2d.drawLine(xS+3, yS+3, xD+3, yD+3);
+                    break;
+                }
+            }
+        }
+    }
+
 }// end MapOfCities()
 

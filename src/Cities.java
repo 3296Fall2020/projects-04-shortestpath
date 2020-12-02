@@ -1,46 +1,55 @@
-public class Cities {
+public class Cities extends CitiesInfo {
 
-    private String name; 	// name of the city
-    private int x;  		// city's x-coordinate for drawing
-    private int y;  		// city's y-coordinate for drawing
+    // added properties
+    private boolean visited = false;
+    private int bestDistance = Integer.MAX_VALUE;   //max value the integer can have
+    private Cities IsNext;
+    private AdjacentNodes AdjacentHead;  // links to the first node in adjacency list
 
-    Cities() {
+
+    // city constructor
+    Cities() {}
+
+    //added methods
+    public void setVisited(boolean v) {
+        this.visited = v;
+    } // end setVisited()
+
+    public void setBestDistance(int b) {
+        this.bestDistance = b;
+    } // end setBestDistance()
+
+    public void setIsNext(Cities n) {
+        this.IsNext = n;
+    } // end setIsNext()
+
+    public void setAdjacentHead (AdjacentNodes h) {
+        this.AdjacentHead = h;
+    } // end setAdjacentHead()
+
+    public boolean getVisited() {
+        return this.visited;
+    } // end getVisited()
+
+    public int getBestDistance() {
+        return this.bestDistance;
+    } // end getBestDistance()
+
+    public Cities getIsNext() {
+        return this.IsNext;
+    } // end getIsNext()
+
+    public AdjacentNodes getAdjacentHead()  {
+        return this.AdjacentHead;
+    } // end getAdjacentHead()
+
+    public void rescities() {
+    	this.visited = false;
+    	this.IsNext = null;
+    	this.bestDistance = Integer.MAX_VALUE;
+    	//this.AdjacentHead = null;
+    	
     }
 
-    Cities(String name, int x, int y) {
-        this.name = name;
-        this.x = x;
-        this.y = y;
-    }  // end Cities()
+} // end class Cities
 
-
-
-    public void setName(String name) {
-        this.name = name;
-    } // end setName()
-
-    public void setX(int x) {
-        this.x = x;
-    } // end setX()
-
-    public void setY(int y) {
-        this.y = y;
-    } // end setY()
-
-    public String getName() {
-        return this.name;
-    } // end getName()
-
-    public int getX() {
-        return this.x;
-    } // end getX()
-
-    public int getY() {
-        return this.y;
-    } // end getY()
-
-    public String toString() {
-        return (this.name + " " + " " + this.x + " " + this.y);
-    } // end toString()
-
-}

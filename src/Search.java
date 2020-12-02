@@ -11,26 +11,24 @@ public class Search {
     // Search, will allow user to pass ANY city in the US and receive
     // corresponding geocode for future distance calculations
 
-    int port;
-    String location;
-    URL url;
-    HttpURLConnection connection;
+    private int port;
+    private String location;
+    private URL url;
+    private HttpURLConnection connection;
+    private final String domain = "https://projects04sp.herokuapp.com";
 
     Search(int port) throws IOException {
         this.port = port;
-        this.url = new URL("http://localhost:8000/api/search/geocoding"); // our server
     }
 
 
     public double[] geocoding(Map<String, String> location) throws IOException, ParseException {
         // our nodejs server, make get request ".../api/search/geocoding?city="CITY"&state="STATE"
+        // receive geocode coordinates
 
+        StringBuilder url_string = new StringBuilder(domain);
 
-        System.out.println(location.toString());
-
-
-        StringBuilder url_string = new StringBuilder();
-        url_string.append("http://localhost:8000/api/search/geocoding");
+        url_string.append("/api/search/geocoding");
 
         String city = location.get("city").replaceAll(" ", "+").toUpperCase();
 
@@ -39,7 +37,7 @@ public class Search {
         url_string.append("&state=" + location.get("state"));
 
         url = new URL(url_string.toString());
-        System.out.println("REQUEST URL: " +  url_string);
+        //System.out.println("REQUEST URL: " +  url_string);
 
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestProperty("accept", "application/json");
@@ -74,14 +72,12 @@ public class Search {
                 break;
         }
 
-
-        // TODO check not null!
-        String lng = response.get("lng").toString();
-        String lat = response.get("lat").toString();
+        // check valid coordinates received
+        String lng = success ? response.get("lng").toString() : "";
+        String lat = success ? response.get("lat").toString() : "";
 
         double[] lat_lng = {Double.parseDouble(lat), Double.parseDouble(lng)};
 
         return lat_lng;
     }
-
 }
