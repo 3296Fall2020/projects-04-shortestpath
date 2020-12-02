@@ -33,7 +33,6 @@ public class Dijkstra {
         return this.pathRaw;
     }
 
-
     public String shortestPath(Cities[] cities, int countOfCities, String currentPosition, String destination){
         // SOURCE AND DEST already highlighted on map
         // Calc and display shortest path from SOURCE to DEST
@@ -125,8 +124,10 @@ public class Dijkstra {
 
         Cities current = null;
         String[] points = new String[150]; //max points including the starting point
+        int[] currentDistances = new int[150]; // displays current distance taken so far next to city name
 
         int pointsCount = -1;
+        int distCount = -1;
 
         for (int i = 0; i < countOfCities; i++){
             if(cities[i].getName().equalsIgnoreCase(s)){
@@ -139,22 +140,23 @@ public class Dijkstra {
 
         while (current != null){
             points[++pointsCount] = current.getName();
-            //System.out.println(current.getBestDistance());
+            currentDistances[++distCount] = current.getBestDistance();
 
             current = current.getIsNext();
         }// end while
 
         for (int i = pointsCount; i > 0; i--){
 
-            sb.append("- " + points[i] + "\n");
+            sb.append("- (" + Integer.toString(currentDistances[i]) + ") "  + points[i] + "\n");
             pathRaw.add(points[i]);
 
             pointsCount--;
+            distCount--;
         }// end for
 
 
         pathRaw.add(points[pointsCount]);
-        sb.append("- " + points[pointsCount--]);
+        sb.append("- (" + Integer.toString(currentDistances[distCount--]) + ") " + points[pointsCount--]);
 
         return sb.toString();
     }
