@@ -549,7 +549,7 @@ public class Main {
             		sourceState = sourcelist[sourcelist.length-1];
                 }
                 else if(sourceCity.isEmpty() || sourceState.isEmpty()) {
-                    sb.append("missing fields");
+                    dijkstra.info.setText("missing fields");
                     return;
                 }
                 sourc = sourceCity + " " + sourceState;
@@ -571,7 +571,7 @@ public class Main {
                 		destState = destlist[destlist.length-1];
                 	}
                 	else {
-                    	sb.append("missing fields");
+                        dijkstra.info.setText("missing fields");
                     	return;
                 	}
                 }
@@ -582,16 +582,13 @@ public class Main {
                 dest.cityInput.setText(destCity);
 
                 int found = checkCityCSV(cities, countOfCities, sourc);
-                if (found == -1) {
-                	return;
-                }
+
+                dijkstra.info.setText("");
                 source.resultsLabel.setText("");
                 dijkstra.path.setText("");
 
                 int found2 = checkCityCSV(cities,countOfCities, des);
-                if (found2 == -1) {
-                	return;
-                }
+
                 dest.resultsLabel.setText("");
                 dijkstra.path.setText("");
            	    dfm = 0;
@@ -603,6 +600,8 @@ public class Main {
 
                     double[] sourceGeocode = geocodeHandler(sourceCity, sourceState);
                     double[] destGeocode = geocodeHandler(destCity, destState);
+                    source.resultsLabel.setText(Arrays.toString(sourceGeocode));
+                    dest.resultsLabel.setText(Arrays.toString(destGeocode));
 
                     double distMiles = calcDistTemp(sourceGeocode[0], sourceGeocode[1], destGeocode[0], destGeocode[1]);
                     distLabel.setText("Distance: " + Double.toString(distMiles) + " (mi)");

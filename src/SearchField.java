@@ -12,7 +12,7 @@ public class SearchField {
     public JComboBox<String> states;
     private int cols;
     private Font font;
-    private String[] STATES = {"", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",
+    private String[] STATES = {"", "AL", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",
                                 "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN",
                                     "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", "DC"}; // no AL, HI, but DC added
 
@@ -45,7 +45,6 @@ public class SearchField {
     }
 
     public String getCityInput(){
-
         if(!cityInput.getText().isEmpty()) return cityInput.getText().trim();
         else return "";
     }
