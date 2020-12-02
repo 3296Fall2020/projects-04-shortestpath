@@ -80,12 +80,14 @@ public class MapOfCities extends JPanel {
 
         // if repaint, highlight selected point/s
         if(sourceX != 0 && sourceY != 0){
+            // source blue
             g.setColor(Color.decode("#00468b"));
             g.fillOval(sourceX-3, sourceY-3, 12, 12);
         }
 
         if(destX != 0 && destY != 0){
-            g.setColor(Color.decode("#00468b"));
+            // dest red
+            g.setColor(Color.decode("#ff1517"));
             g.fillOval(destX-3, destY-3, 12, 12);
         }
 

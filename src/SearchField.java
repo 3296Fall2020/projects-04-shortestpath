@@ -74,4 +74,10 @@ public class SearchField {
 
         return "";
     }
+
+    public void clearAll(){
+        this.cityInput.setText("");
+        this.states.setSelectedIndex(0);
+        this.resultsLabel.setText("");
+    }
 }

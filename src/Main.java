@@ -34,6 +34,7 @@ public class Main {
         int countOfCities; //number of cities
         int countOfLinks; //number of links
 
+
         // load cities from the cvs file
         countOfCities = loadCities(cities);
 
@@ -412,7 +413,7 @@ public class Main {
         search_f.setTitle("SEARCH FIELD (ALL CITIES)");
         search_f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         search_f.setLayout(new BorderLayout());
-        search_f.setSize(700, 350);
+        search_f.setSize(750, 400);
         search_f.setResizable(true);
 
         GridBagLayout gbl = new GridBagLayout();
@@ -420,7 +421,11 @@ public class Main {
         JPanel panel = new JPanel(gbl);
 
         Dijkstra dijkstra = new Dijkstra();
-        JLabel distLabel = new JLabel("Total distance:");
+        JLabel distLabel = new JLabel("Total distance: ...");
+
+        JButton resetBtn = new JButton("RESET");
+        resetBtn.setBackground(Color.decode("#ee9090"));
+        resetBtn.setFont(new Font("Georgia", Font.BOLD, 12));
 
         source.btn.addActionListener(new ActionListener() {
             @Override
@@ -449,6 +454,7 @@ public class Main {
                     // HIGHLIGHT PT ON MAP
 
                     map.setSource(cities[found].getX(), cities[found].getY());
+                    map.setShowPath(false);
                     map.repaint();
                     source.resultsLabel.setText("");
                     dijkstra.path.setText("");
@@ -456,6 +462,7 @@ public class Main {
                 }
 
                 else if(msg.length() != 0){
+                    // print err message
                     source.resultsLabel.setText(msg);
                 }
 
@@ -466,6 +473,7 @@ public class Main {
                     if(isInUSA(retval[0], retval[1])) source.resultsLabel.setText(Arrays.toString(retval)); // within the bounds of the US? display (lat, lng)
                     else dest.resultsLabel.setText("NOT IN USA");
                     map.setSource(0, 0);
+                    map.setShowPath(false);
                 }
             }
         });
@@ -493,6 +501,7 @@ public class Main {
                     // HIGHLIGHT ON MAP
 
                     map.setDest(cities[found2].getX(), cities[found2].getY());
+                    map.setShowPath(false);
                     map.repaint();
                     dest.resultsLabel.setText("");
                     dijkstra.path.setText("");
@@ -508,10 +517,8 @@ public class Main {
                     if(isInUSA(retval[0], retval[1])) dest.resultsLabel.setText(Arrays.toString(retval));
                     else dest.resultsLabel.setText("NOT IN USA");
                     map.setDest(0,0);
+                    map.setShowPath(false);
                 }
-
-                dijkstra.path.setText("");
-                distLabel.setText("Distance: ");
             }
         });
 
@@ -529,9 +536,8 @@ public class Main {
                 String destState = dest.getStateSelection();
 
 
-
                 // Make sure field not null
-                               String sourc;
+                String sourc;
                 String des;
                 StringBuilder sb = new StringBuilder("");
                 if (sfm == 1) {
@@ -581,15 +587,15 @@ public class Main {
                 }
                 source.resultsLabel.setText("");
                 dijkstra.path.setText("");
-                //source.setResults("IN CSV" + "x: " + cities[found].getX() + "y: " + cities[found].getY());
+
                 int found2 = checkCityCSV(cities,countOfCities, des);
                 if (found2 == -1) {
                 	return;
                 }
                 dest.resultsLabel.setText("");
                 dijkstra.path.setText("");
-           	dfm = 0;
-           	sfm  = 0;
+           	    dfm = 0;
+           	    sfm  = 0;
 
                 if(found == -1 || found2 == -1) {
                     // one of the cities not in csv, only calculate distance between the two cities
@@ -609,9 +615,9 @@ public class Main {
                     String path = dijkstra.shortestPath(cities, countOfCities, sourc, des);
                     dijkstra.path.setText("The path from \"" + sourc.toUpperCase() + "\" to \"" + des.toUpperCase() + "\" ...\n\n" + path);
                     distLabel.setText("Distance: " + dijkstra.getDistance() + "(mi)");
+
                     // redraw map, to show path!
                     ArrayList<String> rPath = dijkstra.getPathRaw();
-                   // System.out.println(rPath);
                     map.setPath(rPath);
                     map.setShowPath(true);
                     map.repaint();
@@ -631,6 +637,23 @@ public class Main {
                 if(e.getStateChange() == 1) map.setShowLinks(true);
                 else map.setShowLinks(false);
 
+                map.repaint();
+            }
+        });
+
+        resetBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // reset all fields
+                map.setDest(0,0);
+                map.setSource(0, 0);
+                map.setShowPath(false);
+                source.clearAll();
+                dest.clearAll();
+                dijkstra.path.setText("");
+                distLabel.setText("Distance: ...");
+                dfm = 0;
+                sfm  = 0;
                 map.repaint();
             }
         });
@@ -722,22 +745,29 @@ public class Main {
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 5;
+        panel.add(resetBtn, gbc);
+
+        gbc.insets = (new Insets(10, 0, 0, 0));
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 5;
         panel.add(dijkstra.btn, gbc);
 
         gbc.insets = (new Insets(8, 10, 0, 0));
-        gbc.gridx = 4;
-        gbc.gridy = 3;
+        gbc.gridx = 5;
+        gbc.gridy = 4;
         panel.add(dijkstra.info, gbc);
 
         gbc.insets = (new Insets(15, 0, 0, 0));
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         panel.add(dijkstra.path, gbc);
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         distLabel.setForeground(Color.decode("#5E77F9"));
         panel.add(distLabel, gbc);
 
