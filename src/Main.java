@@ -621,6 +621,9 @@ public class Main {
                     map.setPath(rPath);
                     map.setShowPath(true);
                     map.repaint();
+                    for (int i = 0;i < countOfCities;i++) {
+                    	cities[i].rescities();
+                    }
                 }
             }
         });

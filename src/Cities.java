@@ -43,5 +43,13 @@ public class Cities extends CitiesInfo {
         return this.AdjacentHead;
     } // end getAdjacentHead()
 
+    public void rescities() {
+    	this.visited = false;
+    	this.IsNext = null;
+    	this.bestDistance = Integer.MAX_VALUE;
+    	//this.AdjacentHead = null;
+    	
+    }
+
 } // end class Cities
 
