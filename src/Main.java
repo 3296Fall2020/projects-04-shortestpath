@@ -8,8 +8,19 @@ import java.io.*;
 
 public class Main {
     // main method for the project
+	public static Cities msource;
+	public static Cities mdestination;
+	public static int sd;
+	public static int sfm;
+	//this is source from map and have value 0 if the source is from map and value of one if the source is from search
+	public static int dfm;
     public static void main(String[] args){
 
+    	sfm = 0;
+    	dfm = 0;
+    	sd = 0;
+    	msource = null;
+    	mdestination = null;
         Cities[] cities = new Cities[170]; //array of cities (Vertices) max = 170
         for (int i = 0; i < cities.length; i++) {
             cities[i] = new Cities();
@@ -349,10 +360,26 @@ public class Main {
             @Override //I override only one method for presentation
             public void mousePressed(MouseEvent e) {
                 System.out.println(e.getX() + "," + e.getY());
-
-                // testing
-                map.setSource(e.getX(), e.getY());
-                map.repaint();
+                Cities city = chosencity(countOfCities, cities, e.getX(), e.getY());
+                if(city!=null) {
+                	if(sd==0) {
+                    	System.out.println(city.toString()+" source\n");
+                    	msource = city;
+                        map.setSource(city.getX(), city.getY());
+                        map.repaint();
+                    	sd=1;
+                    	sfm = 1;
+                	}
+                	else {
+                    	System.out.println(city.toString()+" destination");
+                    	mdestination = city;
+                        map.setDest(city.getX(), city.getY());
+                        map.repaint(); 
+                    	sd=0;
+                    	dfm = 1;
+                	}
+               	
+                }
             }
         });
 
@@ -411,6 +438,7 @@ public class Main {
                     map.repaint();
                     source.resultsLabel.setText("");
                     dijkstra.path.setText("");
+                    sfm = 0;
                 }
 
                 else if(msg.length() != 0){
@@ -454,6 +482,7 @@ public class Main {
                     map.repaint();
                     dest.resultsLabel.setText("");
                     dijkstra.path.setText("");
+                    dfm = 0;
                 }
                 else if(msg2.length() != 0){
                     dest.resultsLabel.setText(msg2);
@@ -488,42 +517,65 @@ public class Main {
 
 
                 // Make sure field not null
-                if (sourceCity.isEmpty() && destCity.isEmpty() && sourceCity.isEmpty() && destState.isEmpty()){
-                    dijkstra.info.setText("missing all fields");
+                               String sourc;
+                String des;
+                StringBuilder sb = new StringBuilder("");
+                if (sfm == 1) {
+            		String sourcelist[] = msource.getName().split(" ",10);
+            		sourceCity = sourcelist[0];
+            		for(int i =1;i<sourcelist.length-1;i++) {
+            			sourceCity += " " + sourcelist[i];
+            		}
+            		sourceState = sourcelist[sourcelist.length-1];
+                }
+                else if(sourceCity.isEmpty() || sourceState.isEmpty()) {
+                    sb.append("missing fields");
                     return;
                 }
-                else if(sourceCity.isEmpty() || sourceState.isEmpty()){
-                    dijkstra.info.setText("missing source field");
-                    return;
+                sourc = sourceCity + " " + sourceState;
+           		if (dfm == 1) {
+           			String destlist[] = mdestination.getName().split(" ",10);
+           			destCity = destlist[0];
+           			for(int i =1;i<destlist.length-1;i++) {
+           				destCity += " " + destlist[i];
+           			}	
+           			destState = destlist[destlist.length-1];
+           		}
+           		else if(destCity.isEmpty() || destState.isEmpty()) {
+                	if (mdestination != null) {
+                		String destlist[] = mdestination.getName().split(" ",10);
+                		destCity = destlist[0];
+                		for(int i =1;i<destlist.length-1;i++) {
+                			destCity += " " + destlist[i];
+                		}
+                		destState = destlist[destlist.length-1];
+                	}
+                	else {
+                    	sb.append("missing fields");
+                    	return;
+                	}
                 }
-                else if(destCity.isEmpty() || destState.isEmpty()){
-                    dijkstra.info.setText("missing dest field");
-                    return;
+                des = destCity + " " +  destState;
+                source.states.setSelectedItem(sourceState);
+                dest.states.setSelectedItem(destState);
+                source.cityInput.setText(sourceCity);
+                dest.cityInput.setText(destCity);
+
+                int found = checkCityCSV(cities, countOfCities, sourc);
+                if (found == -1) {
+                	return;
                 }
-
-
-                String msg = source.checkValidInput(sourceCity, sourceState);
-                if(!msg.isEmpty()){
-                    source.resultsLabel.setText(msg);
-                    return;
+                source.resultsLabel.setText("");
+                dijkstra.path.setText("");
+                //source.setResults("IN CSV" + "x: " + cities[found].getX() + "y: " + cities[found].getY());
+                int found2 = checkCityCSV(cities,countOfCities, des);
+                if (found2 == -1) {
+                	return;
                 }
-
-                // Source is valid at this point
-                String source = sourceCity + " " + sourceState;
-
-                // Check if source is on our map
-                int found = checkCityCSV(cities, countOfCities, source);
-
-
-                String msg2 = dest.checkValidInput(destCity, destState);
-                if(!msg2.isEmpty()){
-                    dest.resultsLabel.setText(msg2);
-                    return;
-                }
-
-                String dest = destCity + " " +  destState;
-
-                int found2 = checkCityCSV(cities, countOfCities, dest);
+                dest.resultsLabel.setText("");
+                dijkstra.path.setText("");
+           	dfm = 0;
+           	sfm  = 0;
 
                 if(found == -1 || found2 == -1) {
                     // one of the cities not in csv, only calculate distance between the two cities
@@ -540,14 +592,12 @@ public class Main {
                 else {
                     // Both valid, compute shortestPath (returns a string of cities taken
                     // to get from source to dest)
-                    String path = dijkstra.shortestPath(cities, countOfCities, source, dest);
-                    dijkstra.path.setText("The path from \"" + source.toUpperCase() + "\" to \"" + dest.toUpperCase() + "\" ...\n\n" + path);
+                    String path = dijkstra.shortestPath(cities, countOfCities, sourc, des);
+                    dijkstra.path.setText("The path from \"" + sourc.toUpperCase() + "\" to \"" + des.toUpperCase() + "\" ...\n\n" + path);
                     distLabel.setText("Distance: " + dijkstra.getDistance() + "(mi)");
-
                     // redraw map, to show path!
                     ArrayList<String> rPath = dijkstra.getPathRaw();
                    // System.out.println(rPath);
-
                     map.setPath(rPath);
                     map.setShowPath(true);
                     map.repaint();
