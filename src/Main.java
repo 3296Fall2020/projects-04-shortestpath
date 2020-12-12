@@ -107,7 +107,7 @@ public class Main {
 
     static int loadLinks(Edges[] links, Cities[] cities) {
 
-        // count for the number of links
+      // Counting links the number
         int count = 0;
 
         String[][] CitiesLinksArray = new String[1200][3]; // datas in our file
